@@ -17,7 +17,7 @@ getDB('alert', (data) => {
 // get time from db
 getDB('time', (data) => {
     storeTime = data.time;
-    if (storeTime > 0) {
+    if (storeTime > 0) { //could've been written cleaner. If start hit, switch to Extend.
         elementStart.innerHTML = 'Extend'; // show extend button if time > 0
         _clock = $('.clock').FlipClock(storeTime, {
             clockFace: 'DailyCounter',
@@ -25,7 +25,7 @@ getDB('time', (data) => {
             countdown: false
         });
     } else {
-        _clock = $('.clock').FlipClock(0, {
+        _clock = $('.clock').FlipClock(0, { //do nothing
             clockFace: 'DailyCounter',
             showSeconds: false,
             countdown: false,
@@ -99,7 +99,7 @@ var elementStop = document.getElementById("stop");
 elementStop.addEventListener('click', function() {
 
     var txt = document.getElementById("enter").value;
-    if (txt.length > 0) {
+    if (txt.length > 0) { //could have been if null
         elementStart.innerHTML = 'Start'
 
         chrome.runtime.sendMessage({ cmd: "stop" });

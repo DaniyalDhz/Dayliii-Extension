@@ -1,7 +1,7 @@
 let tabId;
 
 chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
-    console.log(tabs[0].id)
+    console.log(tabs[0].id) //? does 0 represent current tab? what's point of this?
 })
 // fetch('http://127.0.0.1:5000/current', {
 //     method: 'POST',
@@ -17,7 +17,7 @@ chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
 
 //stores value upon change
 chrome.storage.onChanged.addListener(function(changes, storageName) {
-    let timestamp = changes.time.newValue;
+    let timestamp = changes.time.newValue; //? what's "changes.time.newValue" is it current time?
     var sec_num = parseInt(timestamp, 10); // don't forget the second param //parseInt is same as int()
     var hours = Math.floor(sec_num / 3600);
     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
@@ -28,28 +28,28 @@ chrome.storage.onChanged.addListener(function(changes, storageName) {
     if (seconds < 10) { seconds = "0" + seconds; }
     let formattedTime = hours + ':' + minutes;
     chrome.browserAction.setBadgeText({ "text": formattedTime })
-}) //this function looks to be for the badge (icon timer) display and functionality
+}) //? is this function solely for be for the badge (icon timer) display and functionality
 
-let countup2;
-let countup3;
+let countup2; //for start
+let countup3; //for extend
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        if (request.cmd == "start") {
+        if (request.cmd == "start") { //? what is request.cmd or what does it do? or come from
             countup2 = setInterval(() => {
-                getDB('time', function(opt) {
+                getDB('time', function(opt) { //? what's opt? is it key of time?
                     var timeup = opt.time
 
                     if (timeup == startTime) {
                         playsound()
-                        chrome.tabs.sendMessage(tabId, { cmd: "popup" })
+                        chrome.tabs.sendMessage(tabId, { cmd: "popup" }) //? what is cmd?
                         console.log('popup to tab ', tabId)
                         clearInterval(countup2)
                     } else {
-                        setDB('time', opt.time + 1)
+                        setDB('time', opt.time + 1) //? why adding + 1?
                     }
 
                 })
-            }, 1000);
+            }, 1000); //? will it reset after 1000 seconds even if user doesn't do it? what's 1000?
         }
 
         if (request.cmd == "extend") {
@@ -63,8 +63,8 @@ chrome.runtime.onMessage.addListener(
 
 
         if (request.cmd == "stop") {
-            clearInterval(countup2)
-            clearInterval(countup3)
+            clearInterval(countup2) //resets time
+            clearInterval(countup3) //resets extension time
             setDB('time', 0)
             setDB('extended', false)
         }
@@ -79,9 +79,9 @@ function setDB(key, value) {
 
 }
 
-function getDB(key, cb) {
+function getDB(key, cb) { //what's cb? 
     chrome.storage.sync.get(key, (opt) => {
-        cb(opt)
+        cb(opt) 
     });
 
 }
