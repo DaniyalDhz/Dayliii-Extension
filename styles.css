@@ -1,0 +1,525 @@
+/* Clock start */
+
+html {
+    height: 227px;
+    width: 276px;
+}
+
+.flip-clock-label,
+.flip-clock-dot.top,
+.flip-clock-dot.bottom,
+.flip-clock-divider.days,
+.flip-clock-divider.hours,
+.clock ul:nth-child(1),
+.clock ul:nth-child(2),
+.clock ul:nth-child(3) {
+    display: none;
+}
+
+.flip-clock-label {
+    display: block;
+}
+
+#clock1 {
+    position: absolute;
+    top: 29%;
+    left: 126%;
+    width: 700px;
+    margin-left: -350px;
+    /*set to a negative number 1/2 of your width*/
+    height: 100px;
+    margin-top: -60px;
+    /*set to a negative number 1/2 of your height*/
+}
+
+/* .flip-clock-divider.seconds , .flip-clock-divider.seconds ~ .flip.play {
+    display: none;
+}  */
+
+
+.feedback-button {
+    /* height: 40px; */
+    border: solid 3px #CCCCCC;
+    background: #333;
+    /* width: 100px;
+  line-height: 32px; */
+    -webkit-transform: rotate(0deg);
+    font-weight: 600;
+    color: white;
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    text-align: center;
+    font-size: 17px;
+    position: fixed;
+    right: 31%;
+    top: 88%;
+    font-family: "Roboto", helvetica, arial, sans-serif;
+    z-index: 999;
+}
+
+
+
+
+body {
+    justify-content: center;
+    align-items: center;
+    background: #EEE;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.flip-clock {
+    text-align: center;
+    perspective: 400px;
+}
+
+.flip-clock *,
+.flip-clock *:before,
+.flip-clock *:after {
+    box-sizing: border-box;
+}
+
+.flip-clock__piece {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.flip-clock__slot {
+    font-size: 4vw;
+}
+
+.card {
+    display: block;
+    position: relative;
+    padding-bottom: 0.72em;
+    font-size: 9vw;
+    line-height: 0.95;
+}
+
+.card__top,
+.card__bottom,
+.card__back::before,
+.card__back::after {
+    display: block;
+    height: 0.72em;
+    color: #ccc;
+    background: #222;
+    padding: 0.25em 0.25em;
+    border-radius: 0.15em 0.15em 0 0;
+    backface-visiblity: hidden;
+    transform-style: preserve-3d;
+    width: 1.8em;
+    transform: translateZ(0);
+}
+
+.card__bottom {
+    color: #FFF;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    border-top: solid 1px #000;
+    background: #393939;
+    border-radius: 0 0 0.15em 0.15em;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.card__bottom::after {
+    display: block;
+    margin-top: -0.72em;
+}
+
+.card__back::before,
+.card__bottom::after {
+    content: attr(data-value);
+}
+
+.card__back {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: 0%;
+    pointer-events: none;
+}
+
+.card__back::before {
+    position: relative;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.flip .card__back::before {
+    -webkit-animation: flipTop 0.3s cubic-bezier(0.37, 0.01, 0.94, 0.35);
+    animation: flipTop 0.3s cubic-bezier(0.37, 0.01, 0.94, 0.35);
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    transform-origin: center bottom;
+}
+
+.flip .card__back .card__bottom {
+    transform-origin: center top;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: flipBottom 0.6s cubic-bezier(0.15, 0.45, 0.28, 1);
+    animation: flipBottom 0.6s cubic-bezier(0.15, 0.45, 0.28, 1);
+}
+
+@-webkit-keyframes flipTop {
+    0% {
+        transform: rotateX(0deg);
+        z-index: 2;
+    }
+
+    0%,
+    99% {
+        opacity: 0.99;
+    }
+
+    100% {
+        transform: rotateX(-90deg);
+        opacity: 0;
+    }
+}
+
+@keyframes flipTop {
+    0% {
+        transform: rotateX(0deg);
+        z-index: 2;
+    }
+
+    0%,
+    99% {
+        opacity: 0.99;
+    }
+
+    100% {
+        transform: rotateX(-90deg);
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes flipBottom {
+
+    0%,
+    50% {
+        z-index: -1;
+        transform: rotateX(90deg);
+        opacity: 0;
+    }
+
+    51% {
+        opacity: 0.99;
+    }
+
+    100% {
+        opacity: 0.99;
+        transform: rotateX(0deg);
+        z-index: 5;
+    }
+}
+
+@keyframes flipBottom {
+
+    0%,
+    50% {
+        z-index: -1;
+        transform: rotateX(90deg);
+        opacity: 0;
+    }
+
+    51% {
+        opacity: 0.99;
+    }
+
+    100% {
+        opacity: 0.99;
+        transform: rotateX(0deg);
+        z-index: 5;
+    }
+}
+
+/* Clock end */
+
+
+
+.clock {
+    margin: 3em 1em;
+}
+
+/*  */
+
+body {
+    box-sizing: border-box;
+    font-family: monospace;
+    display: flex;
+    flex-direction: column-reverse;
+    place-items: center;
+}
+
+.app {
+    top: 50%;
+}
+
+.base-timer {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 50%;
+}
+
+/* scaleX(1) = CLOCKWISE, scaleX(-1) = ANTI-CLOCKWISE */
+
+.base-timer__svg {
+    transform: scaleX(1);
+}
+
+.base-timer__circle {
+    fill: none;
+    stroke: none;
+}
+
+.base-timer__path-elapsed {
+    stroke-width: 7px;
+    stroke: grey;
+}
+
+.base-timer__path-remaining {
+    stroke-width: 7px;
+    stroke-linecap: round;
+    transform: rotate(90deg);
+    transform-origin: center;
+    transition: 1s linear all;
+    fill-rule: nonzero;
+    stroke: currentColor;
+}
+
+.base-timer__path-remaining.arc {
+    color: rgba(48, 153, 179, 0.973)
+}
+
+.base-timer__label {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+}
+
+.buttons {
+    /* box-sizing: border-box; */
+    /* margin-left: 200px;*/
+    align-items: center;
+}
+
+#start {
+    background-color: #79C779
+}
+
+#submit {
+    background-color: #d3d3d3;
+}
+
+#stop {
+    background-color: #554343;
+    z-index: 1;
+
+
+}
+
+#enter {
+    background-color: #eee6e6;
+    z-index: 1;
+}
+
+#submit:hover {
+    background-color: #707070;
+}
+
+
+/* Dropdown Button */
+
+.dropbtn {
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+
+/* The container <div> - needed to position the dropdown content */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 1;
+
+}
+
+/* Dropdown Content (Hidden by Default) */
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+/* Links inside the dropdown */
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+
+.dropdown-content a:hover {
+    background-color: #ddd
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+
+.show {
+    display: block;
+}
+
+.buttons button {
+    margin: 0.2rem;
+    margin-right: 0.2rem;
+    margin-left: 0.2rem;
+    border: 2px solid;
+    width: 96px;
+    height: 19px;
+    border-radius: 0px;
+    padding: 1px;
+    font-size: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.buttons button:hover {
+    cursor: pointer;
+    border: 3px solid black;
+}
+
+.buttons button:disabled {
+    cursor: not-allowed;
+}
+
+.buttons button:disabled:hover {
+    background-color: blue;
+}
+
+.split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+/* Control the left side */
+
+.left {
+    left: 0;
+    padding-top: 100px;
+}
+
+/* Control the right side */
+
+.right {
+    right: 0;
+}
+
+/* If you want the content centered horizontally and vertically */
+
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+/* Style the image inside the centered container, if needed */
+
+.centered img {
+    width: 150px;
+    border-radius: 50%;
+}
+
+/* Daily events button */
+
+.btn-label {
+    position: relative;
+    left: -12px;
+    display: inline-block;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px 0 0 3px;
+}
+
+.btn-labeled {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.btn {
+    margin-bottom: 10px;
+}
+
+/* styles.css | http://127.0.0.1:5500/styles.css?_cacheOverride=1612131978982 */
+
+.wrapper {
+    justify-content: center;
+}
+
+/* styles.css | http://127.0.0.1:5500/styles.css?_cacheOverride=1612132059025 */
+
+.wrapper {
+    justify-content: center;
+    margin: auto;
+    top: 70px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.clock {
+    /* margin: 3em 1em; */
+    justify-content: center;
+}
+
+body {
+    /* height: 90vh; */
+}
+
+body {
+    /* min-height: 100%; */
+}
+
+.flip-clock {
+    /* margin: 20px auto; */
+    position: absolute;
+    top: 36px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}

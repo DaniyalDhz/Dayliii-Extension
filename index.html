@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./styles.css" />
+    <meta charset="UTF-8" />
+    <script src="./jquery-3.5.1.min.js"></script>
+    <link href="css.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="./normalize.min.css" />
+    <link rel="stylesheet" href="./flipclock.css" />
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="text/javascript" src="content.js" defer></script>
+    <!-- <script type="text/javascript" src="background.js" defer></script> -->
+    <style>
+        #container {
+            position: inherit;
+        }
+
+        #copyright {
+            position: fixed;
+            bottom: 28px;
+            margin-left: -134px;
+        }
+    </style>
+</head>
+
+<body style="background-color: rgb(187, 186, 186)">
+    <div id="container">
+        <div class="clock" id="clock1"></div>
+        <div id="copyright">
+            <div style="float: left;width: 50%;">
+                <div style="float: left">
+                    <div class="dropdown"> <label for="cars"></label> <select name="cars" id="cars" style="width: 130px;height: 20px;"></select> <br /><br /> </div>
+                </div>
+                <div>
+                    <button class="start" id="start" style=" line-height: 32px; width: 130px; ">Start</button>
+                </div>
+            </div>
+
+            <div style="float: right;width: 50%;">
+                <div style="float: right"> <input type="text" id="enter" style="width: 123px;margin-right: 3px;height: 15px;" value="" /> </div>
+                <div style="float: right;">
+                    <button class="submit" id="stop" style=" line-height: 32px; width: 130px;    margin-top: 10px;margin-right: 3px; ">Done</button>
+                </div>
+            </div>
+        </div>
+        <button id="popup" class="feedback-button">Feedback</button>
+    </div>
+    <!-- <script src="_include/js/feedback.js"></script> -->
+    <script src="./flipclock-min.js"></script>
+    <script src="./script.js"></script>
+</body>
+
+</html>
