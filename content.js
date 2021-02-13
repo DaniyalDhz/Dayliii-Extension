@@ -23,13 +23,13 @@ chrome.runtime.onMessage.addListener(
 
         if (request.cmd == "closepopup") {
             popup = document.querySelector('#extensionpopup')
-            if (popup) popup.remove();
+            if (popup) popup.remove(); //? what does this do? when does it remove popup?
         }
 
         if (request.cmd == "popup") {
             popup = document.querySelector('#extensionpopup')
-            if (popup) popup.remove();
-            console.log('play sound')
+            if (popup) popup.remove(); //? what does it do & how is it different from the one above?
+            console.log('play sound') //? what sound
             document.body.innerHTML += `    <style>
         #extensionpopupcontainer {
         height:100vh !important;
@@ -90,7 +90,7 @@ chrome.runtime.onMessage.addListener(
     // document.getElementById("stop").addEventListener('click', function(){console.log(document.getElementById('enter').value)})
             document.querySelector('#extensionpopupcontainer').addEventListener('click', (e) => {
                 if (e.target.attributes.id.value == 'extensionpopupcontainer') {
-                    document.querySelector('#extensionpopupcontainer').remove()
+                    document.querySelector('#extensionpopupcontainer').remove() //? what does this do?
                 }
                 if (e.target.attributes.id.value == 'start') {
                     document.querySelector('#extensionpopupcontainer').remove()
@@ -215,7 +215,7 @@ chrome.runtime.onMessage.addListener(
 
             });
 
-            document.getElementById("enter").addEventListener('keyup', function(e) {
+            document.getElementById("enter").addEventListener('keyup', function(e) { //? what is keyup?
                 setDB('alert', e.target.value)
             });
 
