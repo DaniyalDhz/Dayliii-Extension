@@ -1,3 +1,5 @@
+//even though script & branckround.js are both background scripts. They communicate via chrome.runtime.onMessage('cmd')
+
 var countup;
 var _clock;
 var storeTime;
@@ -9,14 +11,9 @@ getDB('alert', (data) => {
     var txt = document.getElementById("enter");
     // if the data exist, then insert it the input value
     if (data.alert) {
-        txt.value = data.alert; //? txt.value doesn't show when you do console.log(txt.value). Does it not work?
+        txt.value = data.alert; 
     }
 })
-
-document.getElementById("stop").addEventListener("click", function() {
-    document.getElementById("enter").value = ''
-    console.log('submitted')
-  });
 
 
 // get time from db
@@ -24,6 +21,7 @@ getDB('time', (data) => {
     storeTime = data.time;
     if (storeTime > 0) { //could've been written cleaner. If start hit, switch to Extend.
         elementStart.innerHTML = 'Extend'; // show extend button if time > 0
+        //* add current event name
         _clock = $('.clock').FlipClock(storeTime, {
             clockFace: 'DailyCounter',
             showSeconds: false,
@@ -106,8 +104,8 @@ elementStop.addEventListener('click', function() {
     var txt = document.getElementById("enter").value;
     if (txt.length > 0) { //could have been if null
         chrome.runtime.sendMessage({ cmd: 'alert' })
+        document.getElementById("enter").value = ''
         elementStart.innerHTML = 'Start'
-
         chrome.runtime.sendMessage({ cmd: "stop" });
         setDB('time', 0)
         setDB('Extended', false)

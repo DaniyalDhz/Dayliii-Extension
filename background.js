@@ -19,6 +19,7 @@ chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
 // })
 
 
+//alert means when stop is clieked
 
 
 //stores value upon change
@@ -76,9 +77,10 @@ chrome.runtime.onMessage.addListener(
         }
 
 		if (request.cmd == "alert") {
-            getDB('alert', function(database) {
-                console.log('alert value is ', database.alert)
+			getDB('alert', function(database) {
+				console.log('alert value is ', database.alert)		
             })
+			
         }
 
     }

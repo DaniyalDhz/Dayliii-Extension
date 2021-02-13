@@ -89,7 +89,7 @@ chrome.runtime.onMessage.addListener(
     // document.getElementById("stop").addEventListener('click', function(){console.log(document.getElementById('enter').value)})
             document.querySelector('#extensionpopupcontainer').addEventListener('click', (e) => {
                 if (e.target.attributes.id.value == 'extensionpopupcontainer') {
-                    document.querySelector('#extensionpopupcontainer').remove() //? what does this do?
+                    document.querySelector('#extensionpopupcontainer').remove() 
                 }
                 if (e.target.attributes.id.value == 'start') {
                     document.querySelector('#extensionpopupcontainer').remove()
