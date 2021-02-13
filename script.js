@@ -9,7 +9,7 @@ getDB('alert', (data) => {
     var txt = document.getElementById("enter");
     // if the data exist, then insert it the input value
     if (data.alert) {
-        txt.value = data.alert;
+        txt.value = data.alert; //? txxt.value doesn't show when you do console.log(txt.value). Does it not work?
     }
 })
 
