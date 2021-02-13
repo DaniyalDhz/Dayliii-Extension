@@ -1,3 +1,6 @@
+//TODO: Integrate with website
+//TODO Add authentication for security
+
 let tabId;
 
 chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
@@ -15,9 +18,12 @@ chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
 //     }
 // })
 
+
+
+
 //stores value upon change
 chrome.storage.onChanged.addListener(function(changes, storageName) {
-    let timestamp = changes.time.newValue;
+	let timestamp = changes.time.newValue;
     var sec_num = parseInt(timestamp, 10); // don't forget the second param //parseInt is same as int()
     var hours = Math.floor(sec_num / 3600);
     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
@@ -96,3 +102,94 @@ chrome.tabs.onActiveChanged.addListener((newid) => {
     console.log('change tab to ', newid)
     tabId = newid;
 })
+
+
+//Server  API codes
+function submit() {
+	console.log('submitted')
+	alert('kheloo')
+	chrome.identity.getProfileUserInfo(function (userInfo) {
+		console.log(JSON.stringify(userInfo))
+		const userEmail = userInfo.email
+		const userId = userInfo.id
+		calName = document.getElementById('cars') // name of calendar (for goals)
+		// let eventName = document.getElementById('enter').onclick; //eventName
+		console.log(userEmail, userId)
+		fetch('http://127.0.0.1:5000/execute', {
+				method: 'POST',
+				body: JSON.stringify({
+					email: '@gmail.com',
+					id: userId,
+					callName: 'Personal Finance',
+					eventName: 'python event'
+				}),
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/json'
+				}
+			})
+			.then((response) => response.json())
+			.then(function (json) {
+				if (json.message==='daily limit of 5 reached. Subscribe for unlimited access'){ //FIXME: sentence should not be hardcoded
+					alert('daily limit of 5 reached. Subscribe for unlimited access') //TODO: provide a link			
+				}
+				else{
+					chrome.storage.local.set({executeResponse: json.message})
+				}
+			})
+			.catch(console.log('didnt receive data')) // add err in function
+	})
+}
+
+var views = chrome.extension.getViews({
+	type: 'popup'
+})
+for (var i = 0; i < views.length; i++) {
+	views[i].document
+		.getElementById('submit')
+		.addEventListener('click', submit)
+	console.log('loaded')
+}
+
+function current() {
+	// should be merged with start() func
+	chrome.identity.getProfileUserInfo(function (userInfo) {
+		console.log(JSON.stringify(userInfo))
+		const userEmail = userInfo.email
+		const userId = userInfo.id
+		fetch('http://127.0.0.1:5000/current', {
+				method: 'POST',
+				body: JSON.stringify({
+					email: userEmail,
+					id: userId
+				}),
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/json'
+				}
+			})
+			.then((response) => response.json()) // this can prolly be taken out
+			.then(function (json) {
+				chrome.storage.local.set({
+					currentEvent: json.event
+				})
+				chrome.storage.local.set({
+					list: json.list
+				})
+				chrome.storage.local.set({
+					dailyEvents: json.dailyEvents
+				})
+				document.getElementById('enter').onclick = json.event // name of event
+			})
+			.catch(console.log('didnt receive data')) // add err in function
+	})
+}
+
+var views = chrome.extension.getViews({
+	type: 'popup'
+})
+for (var i = 0; i < views.length; i++) {
+	views[i].document.getElementById('start').addEventListener('click', current)
+	console.log('loaded')
+}
+

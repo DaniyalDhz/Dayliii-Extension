@@ -16,6 +16,8 @@ var globalInterval;
 // }, 500);
 
 
+
+
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
 
@@ -73,7 +75,7 @@ chrome.runtime.onMessage.addListener(
             </div>
 
             <div style="float: right;width: 50%;height:70px">
-                <div style="float: right"> <input type="text" id="enter" style="width: 123px;margin-right: 3px;height: 15px;" value="" /> </div>
+                <div style="float: right"> <input type="text" id="enter" style="width: 123px;margin-right: 3px;height: 15px;"> </div>
                 <div style="float: right;">
                     <button class="submit" id="stop" style=" line-height: 32px; width: 130px;    margin-top: 10px;margin-right: 3px; ">Done</button>
             <div style="clear: right;"></div>
@@ -85,6 +87,7 @@ chrome.runtime.onMessage.addListener(
     </div>
     </div>
     `
+    // document.getElementById("stop").addEventListener('click', function(){console.log(document.getElementById('enter').value)})
             document.querySelector('#extensionpopupcontainer').addEventListener('click', (e) => {
                 if (e.target.attributes.id.value == 'extensionpopupcontainer') {
                     document.querySelector('#extensionpopupcontainer').remove()
@@ -279,14 +282,8 @@ chrome.runtime.onMessage.addListener(
 // });
 
 
-// chrome.storage.local.get(['currentEvent'], function(result) {
-//     if (result) {
-//         document.getElementById("enter").value = result.currentEvent;
-//         console.log("the current event is " + result.currentEvent)
-//     } else {
-//         console.log('no current event')
-//     }
-// });
+
+
 
 function setDB(key, value) {
     chrome.storage.sync.set({

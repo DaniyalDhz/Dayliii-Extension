@@ -144,3 +144,30 @@ function getDB(key, cb) {
         cb(opt)
     });
 }
+
+//my code
+chrome.storage.local.get(['currentEvent'], function(result) {
+    if (result.currentEvent) {
+        document.getElementById("enter").value = result.currentEvent;
+        console.log("the current event is " + result.currentEvent)
+    } else {
+        console.log('no current event')        
+    }
+});
+
+chrome.storage.local.get(['list'], function(result) {
+    if (result){
+        for (i of result.list)
+            {
+            var option = document.createElement("option");
+            option.text = i;
+            option.value = "myvalue";
+            // var select = document.getElementById("cars");
+            // var select = document.querySelector("cars");
+            var select = document.querySelector("#cars");
+            select.appendChild(option);
+            console.log(i + ' got appended')
+            }
+        }
+    else(console.log('no events'));
+});
