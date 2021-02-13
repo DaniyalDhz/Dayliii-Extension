@@ -23,13 +23,13 @@ chrome.runtime.onMessage.addListener(
 
         if (request.cmd == "closepopup") {
             popup = document.querySelector('#extensionpopup')
-            if (popup) popup.remove(); //? what does this do? when does it remove popup?
+            if (popup) popup.remove(); //removes popup
         }
 
         if (request.cmd == "popup") {
             popup = document.querySelector('#extensionpopup')
-            if (popup) popup.remove(); //? what does it do & how is it different from the one above?
-            console.log('play sound') //? what sound
+            if (popup) popup.remove(); //removes popup but from a different cmd
+            console.log('play sound') //can be taken out
             document.body.innerHTML += `    <style>
         #extensionpopupcontainer {
         height:100vh !important;
@@ -151,7 +151,7 @@ chrome.runtime.onMessage.addListener(
 
                 let buttonname = e.target.innerHTML;
                 if (buttonname == 'Start') {
-                    e.target.innerHTML = 'Extend' //can't this be: buttonname = 'Extend'
+                    e.target.innerHTML = 'Extend' //can't this be: buttonname = 'Extend'. Answer: unfortunately, that just renew the variable value and not affecting the html
 
                     // send start to background.js
                     chrome.runtime.sendMessage({ cmd: "start" });
@@ -215,7 +215,7 @@ chrome.runtime.onMessage.addListener(
 
             });
 
-            document.getElementById("enter").addEventListener('keyup', function(e) { //? what is keyup?
+            document.getElementById("enter").addEventListener('keyup', function(e) { //an event when ou type in the input
                 setDB('alert', e.target.value)
             });
 

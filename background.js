@@ -23,7 +23,7 @@ chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
 
 //stores value upon change
 chrome.storage.onChanged.addListener(function(changes, storageName) {
-    let timestamp = changes.time.newValue; //? what's "changes.time.newValue" is it current time?
+    let timestamp = changes.time.newValue; //chrome.storage.onChanged is an event that happens when db is changed. //changes = they new db. time = they key of db. newValue = new value of time in db.
     var sec_num = parseInt(timestamp, 10); // don't forget the second param //parseInt is same as int()
     var hours = Math.floor(sec_num / 3600);
     var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
@@ -34,15 +34,15 @@ chrome.storage.onChanged.addListener(function(changes, storageName) {
     if (seconds < 10) { seconds = "0" + seconds; }
     let formattedTime = hours + ':' + minutes;
     chrome.browserAction.setBadgeText({ "text": formattedTime })
-}) //? is this function solely for be for the badge (icon timer) display and functionality
+}) //function solely for the badge (icon timer) display and functionality
 
 let countup2; //for start
 let countup3; //for extend
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        if (request.cmd == "start") { //? what is request.cmd or what does it do? or come from
+        if (request.cmd == "start") { //comes from chrome.tabs.sendmessage(tabid{cmd:'start'}). sends message sends an object.
             countup2 = setInterval(() => {
-                getDB('time', function(opt) { //? what's opt? is it key of time?
+                getDB('time', function(opt) { //opt is a data callback from the database when you use getDB(key, callback)
                     var timeup = opt.time
 
                     if (timeup == startTime) {
@@ -55,7 +55,7 @@ chrome.runtime.onMessage.addListener(
                     }
 
                 })
-            }, 1000); //? will it reset after 1000 seconds even if user doesn't do it? what's 1000?
+            }, 1000); //every 1000ms, it will check if timeup == startTime or not
         }
 
         if (request.cmd == "extend") {
@@ -85,7 +85,7 @@ function setDB(key, value) {
 
 }
 
-function getDB(key, cb) { //what's cb? 
+function getDB(key, cb) { //cb is callback
     chrome.storage.sync.get(key, (opt) => {
         cb(opt) 
     });
