@@ -111,6 +111,7 @@ chrome.runtime.onMessage.addListener(
                 // if the data exist, then insert it the input value
                 if (data.alert) {
                     txt.value = data.alert;
+                    console.log('the data is ' + txt.value)
                 }
             })
 
@@ -211,6 +212,10 @@ chrome.runtime.onMessage.addListener(
                         countdown: false,
                         autoStart: false
                     });
+
+                    getDB('alert', (database) => {
+                        console.log(database.alert)
+                    })
                 }
 
             });

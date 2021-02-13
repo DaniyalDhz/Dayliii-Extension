@@ -100,6 +100,7 @@ elementStop.addEventListener('click', function() {
 
     var txt = document.getElementById("enter").value;
     if (txt.length > 0) { //could have been if null
+        chrome.runtime.sendMessage({ cmd: 'alert' })
         elementStart.innerHTML = 'Start'
 
         chrome.runtime.sendMessage({ cmd: "stop" });

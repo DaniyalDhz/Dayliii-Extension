@@ -75,6 +75,12 @@ chrome.runtime.onMessage.addListener(
             setDB('extended', false)
         }
 
+		if (request.cmd == "alert") {
+            getDB('alert', function(database) {
+                console.log('alert value is ', database.alert)
+            })
+        }
+
     }
 );
 
