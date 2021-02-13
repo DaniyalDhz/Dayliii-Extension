@@ -9,9 +9,14 @@ getDB('alert', (data) => {
     var txt = document.getElementById("enter");
     // if the data exist, then insert it the input value
     if (data.alert) {
-        txt.value = data.alert; //? txxt.value doesn't show when you do console.log(txt.value). Does it not work?
+        txt.value = data.alert; //? txt.value doesn't show when you do console.log(txt.value). Does it not work?
     }
 })
+
+document.getElementById("stop").addEventListener("click", function() {
+    document.getElementById("enter").value = ''
+    console.log('submitted')
+  });
 
 
 // get time from db
