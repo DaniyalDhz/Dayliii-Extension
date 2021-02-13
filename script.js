@@ -57,7 +57,7 @@ elementStart.addEventListener('click', function(e) {
 
         // send start to background.js
         chrome.runtime.sendMessage({ cmd: "start" });
-
+        currentEvent();
 
 
         _clock = $('.clock').FlipClock(startTime, {
@@ -150,6 +150,7 @@ function getDB(key, cb) {
 }
 
 //my code
+function currentEvent(){
 chrome.storage.local.get(['currentEvent'], function(result) {
     if (result.currentEvent) {
         document.getElementById("enter").value = result.currentEvent;
@@ -158,7 +159,7 @@ chrome.storage.local.get(['currentEvent'], function(result) {
         console.log('no current event')        
     }
 });
-
+}
 chrome.storage.local.get(['list'], function(result) {
     if (result){
         for (i of result.list)

@@ -57,6 +57,8 @@ chrome.runtime.onMessage.addListener(
 
                 })
             }, 1000); //every 1000ms, it will check if timeup == startTime or not
+			current();
+			
         }
 
         if (request.cmd == "extend") {
@@ -161,6 +163,7 @@ for (var i = 0; i < views.length; i++) {
 
 function current() {
 	// should be merged with start() func
+	console.log('current got hit')
 	chrome.identity.getProfileUserInfo(function (userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
@@ -187,7 +190,7 @@ function current() {
 				chrome.storage.local.set({
 					dailyEvents: json.dailyEvents
 				})
-				document.getElementById('enter').onclick = json.event // name of event
+				// document.getElementById('enter').onclick = json.event // name of event
 			})
 			.catch(console.log('didnt receive data')) // add err in function
 	})
