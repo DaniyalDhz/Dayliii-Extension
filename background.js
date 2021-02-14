@@ -82,7 +82,7 @@ chrome.runtime.onMessage.addListener(
 			getDB('alert', function(database) {
 				console.log('alert value is ', database.alert)		
             })
-			
+			submit()
         }
 
     }
@@ -117,7 +117,7 @@ chrome.tabs.onActiveChanged.addListener((newid) => {
 //Server  API codes
 function submit() {
 	console.log('submitted')
-	alert('kheloo')
+	
 	chrome.identity.getProfileUserInfo(function (userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
@@ -128,7 +128,7 @@ function submit() {
 		fetch('http://127.0.0.1:5000/execute', {
 				method: 'POST',
 				body: JSON.stringify({
-					email: '@gmail.com',
+					email: 'daniyaldehleh@gmail.com',
 					id: userId,
 					callName: 'Personal Finance',
 					eventName: 'python event'
