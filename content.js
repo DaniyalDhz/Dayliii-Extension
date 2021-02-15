@@ -14,7 +14,7 @@ var globalInterval;
 //     }
 
 // }, 500);
-
+  
 
 
 chrome.runtime.onMessage.addListener(

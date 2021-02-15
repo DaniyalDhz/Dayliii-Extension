@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "new",
-    "description": "This extension helps...",
+    "name": "Dayliii",
+    "description": "Manage your calendars on the fly!",
     "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
     "version": "0.1.0",
     "browser_action": {
@@ -15,8 +15,9 @@
         "identity",
         "identity.email",
         "tabs",
-        "https://dayli.com/*",
+        "https://dayliii.com/*",
         "http://127.0.0.1:5000/test",
+        "http://127.0.0.1:5000/*",
         "http://127.0.0.1:5000/get/info",
         "http://127.0.0.1:5000/test",
         "http://0.0.0.0:5500/index.html",

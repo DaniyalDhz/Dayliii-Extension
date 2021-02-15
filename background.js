@@ -2,7 +2,6 @@
 //TODO Add authentication for security
 
 let tabId;
-
 chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
     console.log(tabs[0].id) //? does 0 represent current tab? what's point of this?
 })
@@ -81,8 +80,9 @@ chrome.runtime.onMessage.addListener(
 		if (request.cmd == "alert") {
 			getDB('alert', function(database) {
 				console.log('alert value is ', database.alert)		
+				let eventName = database.alert
+				submit(eventName)
             })
-			submit()
         }
 
     }
@@ -115,23 +115,20 @@ chrome.tabs.onActiveChanged.addListener((newid) => {
 
 
 //Server  API codes
-function submit() {
+function submit(eventName) {
 	console.log('submitted')
+	console.log('User inputted ' + eventName + ' from submit')
 	
 	chrome.identity.getProfileUserInfo(function (userInfo) {
-		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
-		const userId = userInfo.id
 		calName = document.getElementById('cars') // name of calendar (for goals)
 		// let eventName = document.getElementById('enter').onclick; //eventName
-		console.log(userEmail, userId)
 		fetch('http://127.0.0.1:5000/execute', {
 				method: 'POST',
 				body: JSON.stringify({
-					email: 'daniyaldehleh@gmail.com',
-					id: userId,
-					callName: 'Personal Finance',
-					eventName: 'python event'
+					email: userInfo.email,
+					// callName: 'Personal Finance',
+					eventName: eventName
 				}),
 				headers: {
 					'Content-Type': 'application/json;charset=UTF-8',
@@ -147,7 +144,7 @@ function submit() {
 					chrome.storage.local.set({executeResponse: json.message})
 				}
 			})
-			.catch(console.log('didnt receive data')) // add err in function
+			.catch(console.log('didnt receive data ' + response)) // add err in function
 	})
 }
 
@@ -167,12 +164,10 @@ function current() {
 	chrome.identity.getProfileUserInfo(function (userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
-		const userId = userInfo.id
 		fetch('http://127.0.0.1:5000/current', {
 				method: 'POST',
 				body: JSON.stringify({
-					email: userEmail,
-					id: userId
+					email: userEmail
 				}),
 				headers: {
 					'Content-Type': 'application/json;charset=UTF-8',
