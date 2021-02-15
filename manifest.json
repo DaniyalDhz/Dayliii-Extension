@@ -15,6 +15,7 @@
         "identity",
         "identity.email",
         "tabs",
+        "https://dayli.com/*",
         "http://127.0.0.1:5000/test",
         "http://127.0.0.1:5000/get/info",
         "http://127.0.0.1:5000/test",
