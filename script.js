@@ -1,7 +1,7 @@
 //even though script & branckround.js are both background scripts. They communicate via chrome.runtime.onMessage('cmd')
 
 document.getElementById("popup").addEventListener("click", function() {
-    chrome.tabs.create({url: "https://www.dayliii.com/Feedback"});
+    chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
 });
 
 
@@ -9,14 +9,14 @@ var countup;
 var _clock;
 var storeTime;
 var elementStart = document.getElementById('start')
-var startTime = 65; // in second
+var startTime = 3600; // in second
 
 // load db with 'alert' key
 getDB('alert', (data) => {
     var txt = document.getElementById("enter");
     // if the data exist, then insert it the input value
     if (data.alert) {
-        txt.value = data.alert; 
+        txt.value = data.alert;
     }
 })
 
@@ -35,7 +35,7 @@ getDB('time', (data) => {
             countdown: false
         });
     } else {
-        _clock = $('.clock').FlipClock(0, { //do nothing
+        _clock = $('.clock').FlipClock(startTime, { //do nothing
             clockFace: 'DailyCounter',
             showSeconds: false,
             countdown: false,
@@ -90,7 +90,7 @@ elementStart.addEventListener('click', function(e) {
                 }
 
             }, 1000);
-        }, 2000);
+        }, 500);
     } else {
         chrome.runtime.sendMessage({ cmd: "extend" });
         setDB('Extended', true)
@@ -116,7 +116,7 @@ elementStop.addEventListener('click', function() {
         setDB('Extended', false)
         clearInterval(countup);
         _clock.stop();
-        _clock = $('.clock').FlipClock(0, {
+        _clock = $('.clock').FlipClock(startTime, {
             clockFace: 'DailyCounter',
             showSeconds: false,
             countdown: false,
@@ -155,20 +155,19 @@ function getDB(key, cb) {
 }
 
 //my code
-function currentEvent(){
-chrome.storage.local.get(['currentEvent'], function(result) {
-    if (result.currentEvent) {
-        document.getElementById("enter").value = result.currentEvent;
-        console.log("the current event is " + result.currentEvent)
-    } else {
-        console.log('no current event')        
-    }
-});
+function currentEvent() {
+    chrome.storage.local.get(['currentEvent'], function(result) {
+        if (result.currentEvent) {
+            document.getElementById("enter").value = result.currentEvent;
+            console.log("the current event is " + result.currentEvent)
+        } else {
+            console.log('no current event')
+        }
+    });
 }
 chrome.storage.local.get(['list'], function(result) {
-    if (result){
-        for (i of result.list)
-            {
+    if (result) {
+        for (i of result.list) {
             var option = document.createElement("option");
             option.text = i;
             option.value = "myvalue";
@@ -177,7 +176,6 @@ chrome.storage.local.get(['list'], function(result) {
             var select = document.querySelector("#cars");
             select.appendChild(option);
             console.log(i + ' got appended')
-            }
         }
-    else(console.log('no events'));
+    } else(console.log('no events'));
 });
