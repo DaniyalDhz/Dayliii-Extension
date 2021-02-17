@@ -22,7 +22,6 @@ getDB('alert', (data) => {
 
 
 
-
 // get time from db
 getDB('time', (data) => {
     storeTime = data.time;

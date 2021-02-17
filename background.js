@@ -5,17 +5,6 @@ let tabId;
 chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
     console.log(tabs[0].id) //? does 0 represent current tab? what's point of this?
 })
-// fetch('http://127.0.0.1:5000/current', {
-//     method: 'POST',
-//     body: JSON.stringify({
-//         email: '@gmail.com', //sample data
-//         id: '2' //sample data
-//     }),
-//     headers: {
-//         'Content-Type': 'application/json;charset=UTF-8',
-//         Accept: 'application/json'
-//     }
-// })
 
 
 //alert means when stop is clieked
@@ -123,7 +112,7 @@ function submit(eventName) {
 		const userEmail = userInfo.email
 		calName = document.getElementById('cars') // name of calendar (for goals)
 		// let eventName = document.getElementById('enter').onclick; //eventName
-		fetch('http://127.0.0.1:5000/execute', {
+		fetch('https://www.dayliii.com/execute', {
 				method: 'POST',
 				body: JSON.stringify({
 					email: userInfo.email,
@@ -164,7 +153,7 @@ function current() {
 	chrome.identity.getProfileUserInfo(function (userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
-		fetch('http://127.0.0.1:5000/current', {
+		fetch('https://www.dayliii.com//current', {
 				method: 'POST',
 				body: JSON.stringify({
 					email: userEmail

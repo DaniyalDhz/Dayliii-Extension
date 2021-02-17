@@ -20,8 +20,8 @@
         "identity",
         "identity.email",
         "tabs",
-        "https://dayliii.com/*",
-        "http://127.0.0.1:5000/*"
+        "https://www.dayliii.com//current",
+        "https://www.dayliii.com//execute",
     ],
     "background": {
         "scripts": ["jquery-3.5.1.min.js", "background.js", "flipclock-min.js", "script.js"],
