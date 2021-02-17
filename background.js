@@ -165,7 +165,7 @@ function current() {
 					list: json.list
 				})
 				chrome.storage.local.set({
-					dailyEvents: json.dailyEvents
+					time: json.time
 				})
 				// document.getElementById('enter').onclick = json.event // name of event
 			})
