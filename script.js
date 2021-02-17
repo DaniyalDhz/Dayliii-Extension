@@ -1,16 +1,14 @@
 //even though script & branckround.js are both background scripts. They communicate via chrome.runtime.onMessage('cmd')
 
-document.getElementById("popup").addEventListener("click", function() {
-    chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
-});
-
-
 var countup;
 var _clock;
 var storeTime;
 var elementStart = document.getElementById('start')
 var startTime = 5; // in second
 
+document.getElementById("popup").addEventListener("click", function() {
+    chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
+});
 // load db with 'alert' key
 getDB('alert', (data) => {
     var txt = document.getElementById("enter");

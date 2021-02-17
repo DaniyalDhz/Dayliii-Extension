@@ -153,7 +153,7 @@ function current() {
 	chrome.identity.getProfileUserInfo(function (userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
-		fetch('https://www.dayliii.com//current', {
+		fetch('https://www.dayliii.com/current', {
 				method: 'POST',
 				body: JSON.stringify({
 					email: userEmail
