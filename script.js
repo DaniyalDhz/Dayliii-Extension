@@ -9,7 +9,7 @@ var countup;
 var _clock;
 var storeTime;
 var elementStart = document.getElementById('start')
-var startTime = 3600; // in second
+var startTime = 5; // in second
 
 // load db with 'alert' key
 getDB('alert', (data) => {
