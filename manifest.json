@@ -5,9 +5,9 @@
     "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
     "version": "0.1.0",
     "icons":{
-        "16": "logo.png",
-        "48": "logo.png",
-        "128": "logo.png"
+        "16": "logo-16.png",
+        "48": "logo-48.png",
+        "128": "logo-128.png"
     },
     "browser_action": {
         "default_popup": "popup.html"
@@ -17,20 +17,13 @@
     ],
     "permissions": [
         "storage",
-        "identity",
         "identity.email",
         "tabs",
         "https://www.dayliii.com/current",
-        "https://www.dayliii.com/execute",
-        "activeTab"
+        "https://www.dayliii.com/execute"
     ],
     "background": {
         "scripts": ["jquery-3.5.1.min.js", "background.js", "flipclock-min.js", "script.js"],
         "persistent": false
-    },
-    "content_scripts": [{
-        "matches":["https://www.google.com/"],
-        "js": ["jquery-3.5.1.min.js", "flipclock-min.js", "content.js"],
-        "css": ["normalize.min.css", "styles2.css", "flipclock.css", "css.css"]
-    }]
+    }
 }
