@@ -4,7 +4,7 @@ var countup;
 var _clock;
 var storeTime;
 var elementStart = document.getElementById('start')
-var startTime = 5; // in second
+var startTime = 3600; // in second
 
 document.getElementById("popup").addEventListener("click", function() {
     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });

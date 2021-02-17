@@ -1,14 +1,7 @@
-//TODO: Integrate with website
-//TODO Add authentication for security
-
 let tabId;
 chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
     console.log(tabs[0].id) //? does 0 represent current tab? what's point of this?
 })
-
-
-//alert means when stop is clieked
-
 
 //stores value upon change
 chrome.storage.onChanged.addListener(function(changes, storageName) {
@@ -127,7 +120,7 @@ function submit(eventName) {
 			.then((response) => response.json())
 			.then(function (json) {
 				if (json.message==='daily limit of 5 reached. Subscribe for unlimited access'){ //FIXME: sentence should not be hardcoded
-					alert('daily limit of 5 reached. Subscribe for unlimited access') //TODO: provide a link			
+					console.log('daily limit of 5 reached. Subscribe for unlimited access')			
 				}
 				else{
 					chrome.storage.local.set({executeResponse: json.message})
