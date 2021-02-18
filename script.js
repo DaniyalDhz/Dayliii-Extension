@@ -4,11 +4,11 @@ var countup;
 var _clock;
 var storeTime;
 var elementStart = document.getElementById('start')
-chrome.storage.sync.get(['time'], function(result) {
-    let time = result.time;
-    console.log('time received is ' + result.time)
-  });
-var startTime = 3600; // in second
+// chrome.storage.sync.get(['time'], function(result) {
+//     let time = result.time;
+//     console.log('time received is ' + result.time)
+//   });
+var startTime = 10; // in second
 
 document.getElementById("popup").addEventListener("click", function() {
     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });

@@ -105,7 +105,7 @@ function submit(eventName) {
 		const userEmail = userInfo.email
 		calName = document.getElementById('cars') // name of calendar (for goals)
 		// let eventName = document.getElementById('enter').onclick; //eventName
-		fetch('https://www.dayliii.com/execute', {
+		fetch('http://127.0.0.1:5000/execute', {
 				method: 'POST',
 				body: JSON.stringify({
 					email: userInfo.email,
@@ -146,7 +146,7 @@ function current() {
 	chrome.identity.getProfileUserInfo(function (userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
-		fetch('https://www.dayliii.com/current', {
+		fetch('http://127.0.0.1:5000/current', {
 				method: 'POST',
 				body: JSON.stringify({
 					email: userEmail
