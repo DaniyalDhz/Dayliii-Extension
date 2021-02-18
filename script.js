@@ -4,12 +4,7 @@ var countup;
 var _clock;
 var storeTime;
 var elementStart = document.getElementById('start')
-// chrome.storage.sync.get(['time'], function(result) {
-//     let time = result.time;
-//     console.log('time received is ' + result.time)
-//   });
-var startTime = 10; // in second
-
+var startTime;
 document.getElementById("popup").addEventListener("click", function() {
     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
 });
@@ -21,12 +16,14 @@ getDB('alert', (data) => {
         txt.value = data.alert;
     }
 })
-
+chrome.storage.local.get(['time'], function(result)  {startTime = result.time})
 
 
 // get time from db
 getDB('time', (data) => {
     storeTime = data.time;
+    // startTime = getDB('EventTime')
+    // console.log('Event time is ' + startTime)
     if (storeTime > 0) { //could've been written cleaner. If start hit, switch to Extend.
         elementStart.innerHTML = 'Extend'; // show extend button if time > 0
         //* add current event name
@@ -36,6 +33,7 @@ getDB('time', (data) => {
             countdown: false
         });
     } else {
+        
         _clock = $('.clock').FlipClock(startTime, { //do nothing
             clockFace: 'DailyCounter',
             showSeconds: false,
@@ -157,8 +155,9 @@ function getDB(key, cb) {
 
 //my code
 function currentEvent() {
-    chrome.storage.local.get(['currentEvent'], function(result) {
+    chrome.storage.local.get(['time'], function(result) {
         if (result.currentEvent) {
+           
             document.getElementById("enter").value = result.currentEvent;
             console.log("the current event is " + result.currentEvent)
         } else {
