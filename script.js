@@ -21,9 +21,9 @@ var startTime = function () {
 			})
 			.then((response) => response.json()) // this can prolly be taken out
 			.then(function (json) {
-				return json.time //can use 10 as an example
+			return json.time //can use 10 as an example
 			})
-            .then(document.getElementById("enter").value = result.currentEvent)
+            .then(document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
 			.catch(console.log('didnt receive data')) // add err in function
 	})
 };
@@ -180,17 +180,17 @@ function getDB(key, cb) {
 }
 
 //my code
-function currentEvent() {
-    chrome.storage.local.get(['time'], function(result) {
-        if (result.currentEvent) {
+// function currentEvent() {
+//     chrome.storage.local.get(['time'], function(result) {
+//         if (result.currentEvent) {
            
-            document.getElementById("enter").value = result.currentEvent;
-            console.log("the current event is " + result.currentEvent)
-        } else {
-            console.log('no current event')
-        }
-    });
-}
+//             document.getElementById("enter").value = result.currentEvent;
+//             console.log("the current event is " + result.currentEvent)
+//         } else {
+//             console.log('no current event')
+//         }
+//     });
+// }
 chrome.storage.local.get(['list'], function(result) {
     if (result) {
         for (i of result.list) {
