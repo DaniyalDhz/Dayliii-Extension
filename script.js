@@ -21,7 +21,7 @@ var startTime = function () {
 			})
 			.then((response) => response.json()) // this can prolly be taken out
 			.then(function (json) {
-				return 10
+				return json.time //can use 10 as an example
 			})
             .then(document.getElementById("enter").value = result.currentEvent)
 			.catch(console.log('didnt receive data')) // add err in function
