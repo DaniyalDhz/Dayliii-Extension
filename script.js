@@ -16,12 +16,13 @@ getDB('alert', (data) => {
         txt.value = data.alert;
     }
 })
-chrome.storage.local.get(['time'], function(result)  {startTime = result.time})
-
+// chrome.storage.local.get(['time'], function(result)  {startTime = result.time})
 
 // get time from db
 getDB('time', (data) => {
     storeTime = data.time;
+    // startTime = data.time;
+
     // startTime = getDB('EventTime')
     // console.log('Event time is ' + startTime)
     if (storeTime > 0) { //could've been written cleaner. If start hit, switch to Extend.

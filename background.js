@@ -167,6 +167,7 @@ function current() {
 				chrome.storage.local.set({
 					time: json.time
 				})
+				setDB('time',json.time) //needs to be in this format cause it's getting called as getDB('time') everywhere else
 				// document.getElementById('enter').onclick = json.event // name of event
 			})
 			.catch(console.log('didnt receive data')) // add err in function
