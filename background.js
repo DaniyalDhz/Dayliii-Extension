@@ -140,7 +140,7 @@ for (var i = 0; i < views.length; i++) {
 	console.log('loaded')
 }
 
-function current() {
+function current() { //possibly take out
 	// should be merged with start() func
 	console.log('current got hit')
 	chrome.identity.getProfileUserInfo(function (userInfo) {
