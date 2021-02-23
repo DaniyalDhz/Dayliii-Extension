@@ -30,11 +30,11 @@
 }
 
 #extensionpopupcontainer .feedback-button {
-    border: solid 3px #797474;
-    background: #585757;
+    border: solid 3px #CCCCCC;
+    background: #333;
     -webkit-transform: rotate(0deg);
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.171);
+    color: white;
     transform: rotate(0deg);
     -ms-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
@@ -103,8 +103,8 @@
     position: absolute;
     top: 50%;
     left: 0;
-    border-top: solid 1px #eeeeee;
-    background: #eeeded;
+    border-top: solid 1px #000;
+    background: #393939;
     border-radius: 0 0 0.15em 0.15em;
     pointer-events: none;
     overflow: hidden;
@@ -268,7 +268,7 @@
 
 #extensionpopupcontainer .base-timer__path-elapsed {
     stroke-width: 7px;
-    stroke: eeeeee;
+    stroke: grey;
 }
 
 #extensionpopupcontainer .base-timer__path-remaining {
@@ -309,7 +309,7 @@
 }
 
 #extensionpopupcontainer #stop {
-    background-color: #f1f1f1;
+    background-color: #554343;
     z-index: 1;
 }
 
@@ -319,7 +319,7 @@
 }
 
 #extensionpopupcontainer #submit:hover {
-    background-color: #eeeeee;
+    background-color: #707070;
 }
 
 #extensionpopupcontainer .dropbtn {
@@ -338,7 +338,7 @@
 #extensionpopupcontainer .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #6e6a6a;
+    background-color: #f1f1f1;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;

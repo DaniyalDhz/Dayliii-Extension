@@ -14,10 +14,6 @@ var globalInterval;
 //     }
 
 // }, 500);
-<<<<<<< HEAD
-=======
-
->>>>>>> 18abd9d1653f4f7f669fb52f3195c654430c6af3
 
 
 chrome.runtime.onMessage.addListener(

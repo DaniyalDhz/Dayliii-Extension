@@ -31,6 +31,21 @@ let tabId;
 chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
     console.log(tabs[0].id) //? does 0 represent current tab? what's point of this?
 })
+// fetch('http://127.0.0.1:5000/current', {
+//     method: 'POST',
+//     body: JSON.stringify({
+//         email: '@gmail.com', //sample data
+//         id: '2' //sample data
+//     }),
+//     headers: {
+//         'Content-Type': 'application/json;charset=UTF-8',
+//         Accept: 'application/json'
+//     }
+// })
+
+
+//alert means when stop is clieked
+
 
 //stores value upon change
 chrome.storage.onChanged.addListener(function(changes, storageName) {

@@ -5,25 +5,6 @@ html {
     width: 276px;
 }
 
-body:after{
-    content: "beta";
-    position: fixed;
-    width: 80px;
-    height: 25px;
-    background: #EE8E4A;
-    top: 7px;
-    left: -20px;
-    text-align: center;
-    font-size: 13px;
-    font-family: sans-serif;
-    text-transform: uppercase;
-    font-weight: bold;
-    color: #fff;
-    line-height: 27px;
-    transform:rotate(-45deg);
-    z-index: -1;
-  }
-
 .flip-clock-label,
 .flip-clock-dot.top,
 .flip-clock-dot.bottom,
@@ -58,13 +39,13 @@ body:after{
 
 .feedback-button {
     /* height: 40px; */
-    border: solid 3px #bebebe;
-    background: #bebebe;
+    border: solid 3px #CCCCCC;
+    background: #333;
     /* width: 100px;
   line-height: 32px; */
     -webkit-transform: rotate(0deg);
     font-weight: 600;
-    color: rgb(90, 89, 89);
+    color: white;
     transform: rotate(0deg);
     -ms-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
@@ -83,7 +64,7 @@ body:after{
 body {
     justify-content: center;
     align-items: center;
-    background: rgb(255, 255, 255);
+    background: #EEE;
 }
 
 .wrapper {
@@ -125,7 +106,7 @@ body {
 .card__back::after {
     display: block;
     height: 0.72em;
-    color: #eeeeee;
+    color: #ccc;
     background: #222;
     padding: 0.25em 0.25em;
     border-radius: 0.15em 0.15em 0 0;
@@ -141,7 +122,7 @@ body {
     top: 50%;
     left: 0;
     border-top: solid 1px #000;
-    background: #eeeeee;
+    background: #393939;
     border-radius: 0 0 0.15em 0.15em;
     pointer-events: none;
     overflow: hidden;
@@ -305,7 +286,7 @@ body {
 
 .base-timer__path-elapsed {
     stroke-width: 7px;
-    stroke: rgb(235, 235, 235);
+    stroke: grey;
 }
 
 .base-timer__path-remaining {
@@ -340,27 +321,27 @@ body {
 }
 
 #start {
-    background-color: #2e6dc0ec
+    background-color: #79C779
 }
 
 #submit {
-    background-color: #81d2d4d8;
+    background-color: #d3d3d3;
 }
 
 #stop {
-    background-color: #81d2d4d8;
+    background-color: #554343;
     z-index: 1;
 
 
 }
 
 #enter {
-    background-color: #fdfcfc;
+    background-color: #eee6e6;
     z-index: 1;
 }
 
 #submit:hover {
-    background-color: #c4c4c4;
+    background-color: #707070;
 }
 
 
