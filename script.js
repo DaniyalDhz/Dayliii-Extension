@@ -51,7 +51,7 @@ getCookies("http://localhost:5000/", "user_token", function(id) {
     alert(id);
     let cookie = id
     // current(id) #pass to function
-    //either save token in db to etrieve from background.js or send it as arg in same script w a POST call 
+    //either save token in db to retrieve from background.js or send it as arg in same script w a POST call 
 });
 
 
