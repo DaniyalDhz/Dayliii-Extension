@@ -20,9 +20,11 @@
         "identity",
         "identity.email",
         "tabs",
-        "https://dayliii.com/*",
-        "http://127.0.0.1:5000/*"
-    ],
+        "https://www.dayliii.com/current",
+        "https://www.dayliii.com/execute",
+        "http://127.0.0.1:5000/current",
+        "http://127.0.0.1:5000/execute"
+        ],
     "background": {
         "scripts": ["background.js"],
         "persistent": false

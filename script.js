@@ -6,7 +6,31 @@ var countup;
 var _clock;
 var storeTime;
 var elementStart = document.getElementById('start')
-var startTime
+var startTime = function () {
+	console.log('current got hit from script.js')
+	chrome.identity.getProfileUserInfo(function (userInfo) {
+		console.log(JSON.stringify(userInfo))
+		const userEmail = userInfo.email
+		fetch('http://127.0.0.1:5000/current', {
+				method: 'POST',
+				body: JSON.stringify({
+					email: userEmail
+				}),
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8',
+					Accept: 'application/json'
+				}
+			})
+			.then((response) => response.json()) // this can prolly be taken out
+			.then(function (json) {
+			return json.time //can use 10 as an example
+			})
+            .then(document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
+			.catch(console.log('didnt receive data')) // add err in function
+	})
+};
+
+startTime();
 
 document.getElementById("popup").addEventListener("click", function() {
     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
