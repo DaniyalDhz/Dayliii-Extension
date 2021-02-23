@@ -1,7 +1,5 @@
 //even though script & branckround.js are both background scripts. They communicate via chrome.runtime.onMessage('cmd')
 
-
-
 var countup;
 var _clock;
 var storeTime;
@@ -14,7 +12,8 @@ var startTime = function () {
 		fetch('http://127.0.0.1:5000/current', {
 				method: 'POST',
 				body: JSON.stringify({
-					email: userEmail
+					email: userEmail,
+                    token = token
 				}),
 				headers: {
 					'Content-Type': 'application/json;charset=UTF-8',
@@ -30,6 +29,13 @@ var startTime = function () {
 	})
 };
 
+//TODO if timer is being used and 55 miunutes has passed make post call to get the new access token
+/*
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+sleep(55 minutes)
+*/
 startTime();
 
 function getCookies(domain, name, callback) {
@@ -53,52 +59,23 @@ getCookies("http://localhost:5000/", "user_token", function(id) {
 document.getElementById("popup").addEventListener("click", function() {
     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
 });
-
-// load db with 'alert' key
-getDB(['alert', 'startTime'], (data) => {
+// load db with 'alert' key //TODO: change alert name to more meaningful
+getDB('alert', (data) => {
     var txt = document.getElementById("enter");
     // if the data exist, then insert it the input value
     if (data.alert) {
         txt.value = data.alert;
     }
-
-    if(data.startTime){
-        startTime = data.startTime;
-    }
 })
-
-var startTime = function() {
-    console.log('current got hit from script.js')
-    chrome.identity.getProfileUserInfo(function(userInfo) {
-        console.log(JSON.stringify(userInfo))
-        const userEmail = userInfo.email
-        fetch('http://127.0.0.1:5000/current', {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: userEmail,
-                    token = token
-                }),
-                headers: {
-                    'Content-Type': 'application/json;charset=UTF-8',
-                    Accept: 'application/json'
-                }
-            })
-            .then((response) => response.json()) // this can prolly be taken out
-            .then(function(json) {
-                setDB('startTime', parseInt(json.time))
-                return json.time //can use 10 as an example
-            })
-            .then((json)=>{document.getElementById("enter").value = json.currentEvent}) //can repalce answer w string for debugging
-            .catch(e=>console.log('didnt receive data')) // add err in function
-    })
-};
-
-
 
 
 // get time from db
 getDB('time', (data) => {
     storeTime = data.time;
+    // startTime = data.time;
+
+    // startTime = getDB('EventTime')
+    // console.log('Event time is ' + startTime)
     if (storeTime > 0) { //could've been written cleaner. If start hit, switch to Extend.
         elementStart.innerHTML = 'Extend'; // show extend button if time > 0
         //* add current event name
@@ -108,6 +85,7 @@ getDB('time', (data) => {
             countdown: false
         });
     } else {
+        
         _clock = $('.clock').FlipClock(startTime, { //do nothing
             clockFace: 'DailyCounter',
             showSeconds: false,
@@ -228,27 +206,28 @@ function getDB(key, cb) {
 }
 
 //my code
-function currentEvent() {
-    chrome.storage.local.get(['currentEvent'], function(result) {
-        if (result.currentEvent) {
-            document.getElementById("enter").value = result.currentEvent;
-            console.log("the current event is " + result.currentEvent)
-        } else {
-            console.log('no current event')
-        }
-    });
-}
-// chrome.storage.local.get(['list'], function(result) {
-//     if (result) {
-//         for (i of result.list) {
-//             var option = document.createElement("option");
-//             option.text = i;
-//             option.value = "myvalue";
-//             // var select = document.getElementById("cars");
-//             // var select = document.querySelector("cars");
-//             var select = document.querySelector("#cars");
-//             select.appendChild(option);
-//             console.log(i + ' got appended')
+// function currentEvent() {
+//     chrome.storage.local.get(['time'], function(result) {
+//         if (result.currentEvent) {
+           
+//             document.getElementById("enter").value = result.currentEvent;
+//             console.log("the current event is " + result.currentEvent)
+//         } else {
+//             console.log('no current event')
 //         }
-//     } else(console.log('no events'));
-// });
+//     });
+// }
+chrome.storage.local.get(['list'], function(result) {
+    if (result) {
+        for (i of result.list) {
+            var option = document.createElement("option");
+            option.text = i;
+            option.value = "myvalue";
+            // var select = document.getElementById("cars");
+            // var select = document.querySelector("cars");
+            var select = document.querySelector("#cars");
+            select.appendChild(option);
+            console.log(i + ' got appended')
+        }
+    } else(console.log('no events'));
+});
