@@ -4,30 +4,34 @@ var countup;
 var _clock;
 var storeTime;
 var elementStart = document.getElementById('start')
-var startTime = function () {
-	console.log('current got hit from script.js')
-	chrome.identity.getProfileUserInfo(function (userInfo) {
-		console.log(JSON.stringify(userInfo))
-		const userEmail = userInfo.email
-		fetch('http://127.0.0.1:5000/current', {
-				method: 'POST',
-				body: JSON.stringify({
-					email: userEmail,
-                    token = token
-				}),
-				headers: {
-					'Content-Type': 'application/json;charset=UTF-8',
-					Accept: 'application/json'
-				}
-			})
-			.then((response) => response.json()) // this can prolly be taken out
-			.then(function (json) {
-			return json.time //can use 10 as an example
-			})
-            .then(document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
-			.catch(console.log('didnt receive data')) // add err in function
-	})
-};
+var startTime = 0;
+getDB('startTime', function(db) {
+        startTime = db.startTime
+    })
+    (function() {
+        console.log('current got hit from script.js')
+        chrome.identity.getProfileUserInfo(function(userInfo) {
+            console.log(JSON.stringify(userInfo))
+            const userEmail = userInfo.email
+            fetch('http://127.0.0.1:5000/current', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: userEmail,
+                        token = token
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8',
+                        Accept: 'application/json'
+                    }
+                })
+                .then((response) => response.json()) // this can prolly be taken out
+                .then(function(json) {
+                    return json.time //can use 10 as an example
+                })
+                .then(document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
+                .catch(console.log('didnt receive data')) // add err in function
+        })
+    })
 
 //TODO if timer is being used and 55 miunutes has passed make post call to get the new access token
 /*
@@ -36,11 +40,10 @@ function sleep(ms) {
 }
 sleep(55 minutes)
 */
-startTime();
 
 function getCookies(domain, name, callback) {
-    chrome.cookies.get({"url": domain, "name": name}, function(cookie) {
-        if(callback) {
+    chrome.cookies.get({ "url": domain, "name": name }, function(cookie) {
+        if (callback) {
             callback(cookie.value);
         }
     });
@@ -85,7 +88,7 @@ getDB('time', (data) => {
             countdown: false
         });
     } else {
-        
+
         _clock = $('.clock').FlipClock(startTime, { //do nothing
             clockFace: 'DailyCounter',
             showSeconds: false,
@@ -209,7 +212,7 @@ function getDB(key, cb) {
 // function currentEvent() {
 //     chrome.storage.local.get(['time'], function(result) {
 //         if (result.currentEvent) {
-           
+
 //             document.getElementById("enter").value = result.currentEvent;
 //             console.log("the current event is " + result.currentEvent)
 //         } else {
