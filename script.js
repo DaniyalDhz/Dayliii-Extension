@@ -27,6 +27,7 @@ getDB('startTime', function(db) {
                 .then((response) => response.json()) // this can prolly be taken out
                 .then(function(json) {
                     setDB('startTimer', json.time)
+                    startTime = json.time;
                     return json.time //can use 10 as an example
                 })
                 .then(document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
