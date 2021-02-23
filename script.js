@@ -52,11 +52,13 @@ var startTime = function() {
 };
 
 
-
-
 // get time from db
 getDB('time', (data) => {
     storeTime = data.time;
+    // startTime = data.time;
+
+    // startTime = getDB('EventTime')
+    // console.log('Event time is ' + startTime)
     if (storeTime > 0) { //could've been written cleaner. If start hit, switch to Extend.
         elementStart.innerHTML = 'Extend'; // show extend button if time > 0
         //* add current event name
