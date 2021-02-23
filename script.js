@@ -12,7 +12,8 @@ var startTime = function () {
 		fetch('http://127.0.0.1:5000/current', {
 				method: 'POST',
 				body: JSON.stringify({
-					email: userEmail
+					email: userEmail,
+                    token = token
 				}),
 				headers: {
 					'Content-Type': 'application/json;charset=UTF-8',
@@ -28,7 +29,32 @@ var startTime = function () {
 	})
 };
 
+//TODO if timer is being used and 55 miunutes has passed make post call to get the new access token
+/*
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+sleep(55 minutes)
+*/
 startTime();
+
+function getCookies(domain, name, callback) {
+    chrome.cookies.get({"url": domain, "name": name}, function(cookie) {
+        if(callback) {
+            callback(cookie.value);
+        }
+    });
+}
+
+//usage:
+getCookies("http://localhost:5000/", "user_token", function(id) {
+    alert(id);
+    let cookie = id
+    // current(id) #pass to function
+    //either save token in db to retrieve from background.js or send it as arg in same script w a POST call 
+});
+
+
 
 document.getElementById("popup").addEventListener("click", function() {
     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
