@@ -32,6 +32,24 @@ var startTime = function () {
 
 startTime();
 
+function getCookies(domain, name, callback) {
+    chrome.cookies.get({"url": domain, "name": name}, function(cookie) {
+        if(callback) {
+            callback(cookie.value);
+        }
+    });
+}
+
+//usage:
+getCookies("http://localhost:5000/", "user_token", function(id) {
+    alert(id);
+    let cookie = id
+    // current(id) #pass to function
+    //either save token in db to etrieve from background.js or send it as arg in same script w a POST call 
+});
+
+
+
 document.getElementById("popup").addEventListener("click", function() {
     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
 });
