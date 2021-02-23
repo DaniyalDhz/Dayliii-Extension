@@ -1,5 +1,31 @@
+var startTime
+
+// load db with 'alert' key
+getDB(['startTime'], (data) => {
+    if (data.startTime) {
+        startTime = data.startTime;
+    } else {
+        startTime = 5;
+        setDB('startTime', startTime)
+    }
+})
+
+console.log(startTime)
 //TODO: Integrate with website
 //TODO Add authentication for security
+
+// restart chrome when first installed
+chrome.runtime.onInstalled.addListener(function(inv) {
+        if ('install' == inv.reason) {
+            chrome.tabs.create({url:"data:text/html, <h1>Installed successfully, please restart your browser</h1>'"})
+
+            chrome.tabs.getAllInWindow(null, function(tabs) {
+                for (var i = 0; i < tabs.length; i++) {
+                    chrome.tabs.reload(tabs[i].id);
+                }
+            });
+        }
+})
 
 let tabId;
 chrome.tabs.query({ currentWindow: true, active: true }, (tabs) => {
@@ -44,20 +70,21 @@ chrome.runtime.onMessage.addListener(
             countup2 = setInterval(() => {
                 getDB('time', function(opt) { //opt is a data callback from the database when you use getDB(key, callback)
                     var timeup = opt.time
+                    console.log(timeup, startTime)
 
                     if (timeup == startTime) {
+                        clearInterval(countup2)
                         playsound()
                         chrome.tabs.sendMessage(tabId, { cmd: "popup" }) //? what is cmd?
                         console.log('popup to tab ', tabId)
-                        clearInterval(countup2)
+                        return false;
                     } else {
                         setDB('time', opt.time + 1) //? why adding + 1?
                     }
 
                 })
             }, 1000); //every 1000ms, it will check if timeup == startTime or not
-			current();
-			
+            // current();
         }
 
         if (request.cmd == "extend") {
@@ -77,11 +104,11 @@ chrome.runtime.onMessage.addListener(
             setDB('extended', false)
         }
 
-		if (request.cmd == "alert") {
-			getDB('alert', function(database) {
-				console.log('alert value is ', database.alert)		
-				let eventName = database.alert
-				submit(eventName)
+        if (request.cmd == "alert") {
+            getDB('alert', function(database) {
+                console.log('alert value is ', database.alert)
+                let eventName = database.alert
+                // submit(eventName)
             })
         }
 
@@ -97,7 +124,7 @@ function setDB(key, value) {
 
 function getDB(key, cb) { //cb is callback
     chrome.storage.sync.get(key, (opt) => {
-        cb(opt) 
+        cb(opt)
     });
 
 }
@@ -111,91 +138,121 @@ function playsound() {
 chrome.tabs.onActiveChanged.addListener((newid) => {
     console.log('change tab to ', newid)
     tabId = newid;
-})
 
+    chrome.tabs.sendMessage(newid, { greeting: "hello" }, function(response) {
+        if(response && response.farewell) {
+            console.log(response.farewell);
+        } else {
+            console.log('ga dapet jawaban');
+
+            chrome.tabs.reload(newid)
+            chrome.tabs.sendMessage(newid, { greeting: "hello" }, function(response) {
+            console.log(response?.farewell);
+            })
+        }
+    })
+
+})
 
 //Server  API codes
 function submit(eventName) {
-	console.log('submitted')
-	console.log('User inputted ' + eventName + ' from submit')
-	
-	chrome.identity.getProfileUserInfo(function (userInfo) {
-		const userEmail = userInfo.email
-		calName = document.getElementById('cars') // name of calendar (for goals)
-		// let eventName = document.getElementById('enter').onclick; //eventName
-		fetch('http://127.0.0.1:5000/execute', {
-				method: 'POST',
-				body: JSON.stringify({
-					email: userInfo.email,
-					// callName: 'Personal Finance',
-					eventName: eventName
-				}),
-				headers: {
-					'Content-Type': 'application/json;charset=UTF-8',
-					Accept: 'application/json'
-				}
-			})
-			.then((response) => response.json())
-			.then(function (json) {
-				if (json.message==='daily limit of 5 reached. Subscribe for unlimited access'){ //FIXME: sentence should not be hardcoded
-					alert('daily limit of 5 reached. Subscribe for unlimited access') //TODO: provide a link			
-				}
-				else{
-					chrome.storage.local.set({executeResponse: json.message})
-				}
-			})
-			.catch(console.log('didnt receive data ' + response)) // add err in function
-	})
+    console.log('submitted')
+    console.log('User inputted ' + eventName + ' from submit')
+
+    chrome.identity.getProfileUserInfo(function(userInfo) {
+        const userEmail = userInfo.email
+        calName = document.getElementById('cars') // name of calendar (for goals)
+        // let eventName = document.getElementById('enter').onclick; //eventName
+        fetch('http://127.0.0.1:5000/execute', {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: userInfo.email,
+                    // callName: 'Personal Finance',
+                    eventName: eventName
+                }),
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    Accept: 'application/json'
+                }
+            })
+            .then((response) => response.json())
+            .then(function(json) {
+                if (json.message === 'daily limit of 5 reached. Subscribe for unlimited access') { //FIXME: sentence should not be hardcoded
+                    alert('daily limit of 5 reached. Subscribe for unlimited access') //TODO: provide a link			
+                } else {
+                    chrome.storage.local.set({ executeResponse: json.message })
+                }
+            })
+            .catch(console.log('didnt receive data ' + response)) // add err in function
+    })
 }
 
 var views = chrome.extension.getViews({
-	type: 'popup'
+    type: 'popup'
 })
 for (var i = 0; i < views.length; i++) {
-	views[i].document
-		.getElementById('submit')
-		.addEventListener('click', submit)
-	console.log('loaded')
+    views[i].document
+        .getElementById('submit')
+        .addEventListener('click', submit)
+    console.log('loaded')
 }
 
 function current() {
-	// should be merged with start() func
-	console.log('current got hit')
-	chrome.identity.getProfileUserInfo(function (userInfo) {
-		console.log(JSON.stringify(userInfo))
-		const userEmail = userInfo.email
-		fetch('http://127.0.0.1:5000/current', {
-				method: 'POST',
-				body: JSON.stringify({
-					email: userEmail
-				}),
-				headers: {
-					'Content-Type': 'application/json;charset=UTF-8',
-					Accept: 'application/json'
-				}
-			})
-			.then((response) => response.json()) // this can prolly be taken out
-			.then(function (json) {
-				chrome.storage.local.set({
-					currentEvent: json.event
-				})
-				chrome.storage.local.set({
-					list: json.list
-				})
-				chrome.storage.local.set({
-					dailyEvents: json.dailyEvents
-				})
-				// document.getElementById('enter').onclick = json.event // name of event
-			})
-			.catch(console.log('didnt receive data')) // add err in function
-	})
+    // should be merged with start() func
+    console.log('current got hit')
+    chrome.identity.getProfileUserInfo(function(userInfo) {
+        console.log(JSON.stringify(userInfo))
+        const userEmail = userInfo.email
+        fetch('http://127.0.0.1:5000/current', {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: userEmail
+                }),
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    Accept: 'application/json'
+                }
+            })
+            .then((response) => response.json()) // this can prolly be taken out
+            .then(function(json) {
+                chrome.storage.local.set({
+                    currentEvent: json.event
+                })
+                chrome.storage.local.set({
+                    list: json.list
+                })
+                chrome.storage.local.set({
+                    dailyEvents: json.dailyEvents
+                })
+                // document.getElementById('enter').onclick = json.event // name of event
+            })
+            .catch(console.log('didnt receive data')) // add err in function
+    })
 }
 
 var views = chrome.extension.getViews({
-	type: 'popup'
+    type: 'popup'
 })
 for (var i = 0; i < views.length; i++) {
-	views[i].document.getElementById('start').addEventListener('click', current)
-	console.log('loaded')
+    views[i].document.getElementById('start').addEventListener('click', current)
+    console.log('loaded')
 }
 
+
+
+
+
+
+
+
+function getCurrentTab(callback) {
+    chrome.tabs.query({
+            currentWindow: true,
+            active: true,
+            windowType: 'normal',
+        },
+        function(tab) {
+            callback(tab[0]);
+        }
+    );
+}

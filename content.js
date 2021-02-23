@@ -14,16 +14,21 @@ var globalInterval;
 //     }
 
 // }, 500);
-  
 
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
+        console.log(sender.tab ?
+            "from a content script:" + sender.tab.url :
+            "from the extension");
+        if (request.greeting == "hello")
+            sendResponse({ farewell: "hi" });
+    }
+);
 
-        if (request.cmd == "closepopup") {
-            popup = document.querySelector('#extensionpopup')
-            if (popup) popup.remove(); //removes popup
-        }
+
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
 
         if (request.cmd == "popup") {
             popup = document.querySelector('#extensionpopup')
@@ -86,10 +91,10 @@ chrome.runtime.onMessage.addListener(
     </div>
     </div>
     `
-    // document.getElementById("stop").addEventListener('click', function(){console.log(document.getElementById('enter').value)})
+            // document.getElementById("stop").addEventListener('click', function(){console.log(document.getElementById('enter').value)})
             document.querySelector('#extensionpopupcontainer').addEventListener('click', (e) => {
                 if (e.target.attributes.id.value == 'extensionpopupcontainer') {
-                    document.querySelector('#extensionpopupcontainer').remove() 
+                    document.querySelector('#extensionpopupcontainer').remove()
                 }
                 if (e.target.attributes.id.value == 'start') {
                     document.querySelector('#extensionpopupcontainer').remove()
