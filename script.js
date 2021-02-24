@@ -30,6 +30,12 @@ chrome.identity.getProfileUserInfo(function(userInfo) {
             setDB('startTimer', json.time)
             startTime = json.time;
             console.log('timer is', json.time)
+            _clock = $('.clock').FlipClock(startTime, { //do nothing
+                clockFace: 'DailyCounter',
+                showSeconds: false,
+                countdown: false,
+                autoStart: false
+            });
             return json.time //can use 10 as an example
         })
         // .then(()=>document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
