@@ -10,36 +10,41 @@ getDB('startTime', function(db) {
 })
 
 var token = 'asfdjklasjfdlk'
+getDB('time', (db) => {
+    if(db.time == 0) {
 
-console.log('current got hit from script.js')
-chrome.identity.getProfileUserInfo(function(userInfo) {
-    console.log(JSON.stringify(userInfo))
-    const userEmail = userInfo.email
-    fetch('http://localhost:5000/current', {
-        method: "POST",
-        body: JSON.stringify({
-            email: userEmail,
-            token: token
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        },
+    console.log('current got hit from script.js')
+    chrome.identity.getProfileUserInfo(function(userInfo) {
+        console.log(JSON.stringify(userInfo))
+        const userEmail = userInfo.email
+        fetch('http://127.0.0.1/work/tst/response.php', {
+                method: "POST",
+                body: JSON.stringify({
+                    email: userEmail,
+                    token: token
+                }),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then((response) => response.json()) // this can prolly be taken out
+            .then(function(json) {
+                setDB('startTimer', json.time)
+                startTime = json.time;
+                console.log('timer is', json.time)
+                _clock = $('.clock').FlipClock(startTime, { //do nothing
+                    clockFace: 'DailyCounter',
+                    showSeconds: false,
+                    countdown: false,
+                    autoStart: false
+                });
+                return json //can use 10 as an example
+            })
+            .then((json) => document.getElementById("enter").value = json.event) //can repalce answer w string for debugging
+            .catch(console.log('didnt receive data')) // add err in function
     })
-        .then((response) => response.json()) // this can prolly be taken out
-        .then(function(json) {
-            setDB('startTimer', json.time)
-            startTime = json.time;
-            console.log('timer is', json.time)
-            _clock = $('.clock').FlipClock(startTime, { //do nothing
-                clockFace: 'DailyCounter',
-                showSeconds: false,
-                countdown: false,
-                autoStart: false
-            });
-            return json //can use 10 as an example
-        })
-        .then((json)=>document.getElementById("enter").value = json.event) //can repalce answer w string for debugging
-        .catch(console.log('didnt receive data')) // add err in function
+    }
+
 })
 
 function getCookies(domain, name, callback) {
