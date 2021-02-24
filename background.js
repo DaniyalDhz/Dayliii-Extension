@@ -82,7 +82,8 @@ chrome.runtime.onMessage.addListener(
 					}
 					else {
                         setDB('time', opt.time + 1)
-						counter = counter +  1
+						counter++;
+						alert('hasnt reached yet')
                     }
 
                 })
