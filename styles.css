@@ -21,7 +21,7 @@ body:after{
     color: #fff;
     line-height: 27px;
     transform:rotate(-45deg);
-    z-index: -1;
+    z-index: 123121;
   }
 
 .flip-clock-label,

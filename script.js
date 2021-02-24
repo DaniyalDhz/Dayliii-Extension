@@ -6,34 +6,33 @@ var storeTime;
 var elementStart = document.getElementById('start')
 var startTime = 0;
 getDB('startTime', function(db) {
-        startTime = db.startTime
-    })
-    (function() {
-        console.log('current got hit from script.js')
-        chrome.identity.getProfileUserInfo(function(userInfo) {
-            console.log(JSON.stringify(userInfo))
-            const userEmail = userInfo.email
-            fetch('http://127.0.0.1:5000/current', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        email: userEmail,
-                        token = token
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json;charset=UTF-8',
-                        Accept: 'application/json'
-                    }
-                })
-                .then((response) => response.json()) // this can prolly be taken out
-                .then(function(json) {
-                    setDB('startTimer', json.time)
-                    startTime = json.time;
-                    return json.time //can use 10 as an example
-                })
-                .then(document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
-                .catch(console.log('didnt receive data')) // add err in function
+    startTime = db.startTime
+})
+
+console.log('current got hit from script.js')
+chrome.identity.getProfileUserInfo(function(userInfo) {
+    console.log(JSON.stringify(userInfo))
+    const userEmail = userInfo.email
+    fetch('http://127.0.0.1/work/tst/response.php', {
+            method: 'POST',
+            body: JSON.stringify({
+                email: userEmail,
+                token: token
+            }),
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                Accept: 'application/json'
+            }
         })
-    })
+        .then((response) => response.json()) // this can prolly be taken out
+        .then(function(json) {
+            setDB('startTimer', json.time)
+            startTime = json.time;
+            return json.time //can use 10 as an example
+        })
+        .then(document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
+        .catch(console.log('didnt receive data')) // add err in function
+})
 
 //TODO if timer is being used and 55 miunutes has passed make post call to get the new access token
 /*
