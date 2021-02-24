@@ -36,10 +36,10 @@ chrome.identity.getProfileUserInfo(function(userInfo) {
                 countdown: false,
                 autoStart: false
             });
-            return json.time //can use 10 as an example
+            return json //can use 10 as an example
         })
-        // .then(()=>document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
-        // .catch(console.log('didnt receive data')) // add err in function
+        .then((json)=>document.getElementById("enter").value = json.event) //can repalce answer w string for debugging
+        .catch(console.log('didnt receive data')) // add err in function
 })
 
 function getCookies(domain, name, callback) {
@@ -213,7 +213,6 @@ function getDB(key, cb) {
 function currentEvent() {
     chrome.storage.local.get(['time'], function(result) {
         if (result.currentEvent) {
-
             document.getElementById("enter").value = result.currentEvent;
             console.log("the current event is " + result.currentEvent)
         } else {
