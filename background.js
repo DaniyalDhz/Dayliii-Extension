@@ -22,10 +22,11 @@ chrome.storage.onChanged.addListener(function(changes, storageName) {
 // function sleep(ms) {
 //   return new Promise(resolve => setTimeout(resolve, ms));
 // }
-
-
-function fetchNow(){
-	alert('activated')
+// function sleep(ms) {
+// 	return new Promise(resolve => setTimeout(resolve, ms));
+//   }
+async function fetchNow(){
+	await new Promise(r => setTimeout(r, 7000));
 	chrome.identity.getProfileUserInfo(function(userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
@@ -52,8 +53,8 @@ function fetchNow(){
 				});
 				return json.time //can use 10 as an example
 			})
-			// .then(()=>document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
-			// .catch(console.log('didnt receive data')) // add err in function
+			.then(()=>document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
+			.catch(console.log('didnt receive data')) // add err in function
 	})	
 }
 
@@ -66,30 +67,20 @@ chrome.runtime.onMessage.addListener(
             countup2 = setInterval(() => {
                 getDB('time', function(opt) { //opt is a data callback from the database when you use getDB(key, callback)
                     var timeup = opt.time
-					// sleep(100);
-					let counter = 0;					
-					
-                    if (timeup == startTime) {
+
+					if (timeup == startTime) {
                         playsound()
                         chrome.tabs.sendMessage(tabId, { cmd: "popup" }) //? what is cmd?
                         console.log('popup to tab ', tabId)
                         clearInterval(countup2)
                     } 
-					else if (counter==5){
-							fetchNow(); 
-							alert('SHOULD SEND NOW')
-							console.log('sending access token for a new one')
-					}
 					else {
-                        setDB('time', opt.time + 1)
-						counter++;
-						alert('hasnt reached yet')
+                        setDB('time', opt.time + 1)						
                     }
-
                 })
             }, 1000); //every 1000ms, it will check if timeup == startTime or not
 			current();
-			
+			fetchNow();
         }
         if (request.cmd == "extend") {
             countup3 = setInterval(() => {
