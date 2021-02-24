@@ -15,7 +15,7 @@ console.log('current got hit from script.js')
 chrome.identity.getProfileUserInfo(function(userInfo) {
     console.log(JSON.stringify(userInfo))
     const userEmail = userInfo.email
-    fetch('http://127.0.0.1/work/tst/response.php', {
+    fetch('http://localhost:5000/current', {
         method: "POST",
         body: JSON.stringify({
             email: userEmail,
