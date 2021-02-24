@@ -42,14 +42,6 @@ chrome.identity.getProfileUserInfo(function(userInfo) {
         // .catch(console.log('didnt receive data')) // add err in function
 })
 
-//TODO if timer is being used and 55 miunutes has passed make post call to get the new access token
-/*
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-sleep(55 minutes)
-*/
-
 function getCookies(domain, name, callback) {
     chrome.cookies.get({ "url": domain, "name": name }, function(cookie) {
         if (callback) {

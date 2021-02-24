@@ -18,6 +18,46 @@ chrome.storage.onChanged.addListener(function(changes, storageName) {
     chrome.browserAction.setBadgeText({ "text": formattedTime })
 }) //function solely for the badge (icon timer) display and functionality
 
+
+// function sleep(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
+
+
+function fetchNow(){
+	alert('activated')
+	chrome.identity.getProfileUserInfo(function(userInfo) {
+		console.log(JSON.stringify(userInfo))
+		const userEmail = userInfo.email
+		fetch('http://localhost:5000/current', {
+			method: "POST",
+			body: JSON.stringify({
+				email: userEmail,
+				token: token
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			},
+		})
+			.then((response) => response.json()) // this can prolly be taken out
+			.then(function(json) {
+				setDB('startTimer', json.time)
+				startTime = json.time;
+				console.log('timer is', json.time)
+				_clock = $('.clock').FlipClock(startTime, { //do nothing
+					clockFace: 'DailyCounter',
+					showSeconds: false,
+					countdown: false,
+					autoStart: false
+				});
+				return json.time //can use 10 as an example
+			})
+			// .then(()=>document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
+			// .catch(console.log('didnt receive data')) // add err in function
+	})	
+}
+
+
 let countup2; //for start
 let countup3; //for extend
 chrome.runtime.onMessage.addListener(
@@ -26,14 +66,23 @@ chrome.runtime.onMessage.addListener(
             countup2 = setInterval(() => {
                 getDB('time', function(opt) { //opt is a data callback from the database when you use getDB(key, callback)
                     var timeup = opt.time
-
+					// sleep(100);
+					let counter = 0;					
+					
                     if (timeup == startTime) {
                         playsound()
                         chrome.tabs.sendMessage(tabId, { cmd: "popup" }) //? what is cmd?
                         console.log('popup to tab ', tabId)
                         clearInterval(countup2)
-                    } else {
-                        setDB('time', opt.time + 1) //? why adding + 1?
+                    } 
+					else if (counter==5){
+							fetchNow(); 
+							alert('SHOULD SEND NOW')
+							console.log('sending access token for a new one')
+					}
+					else {
+                        setDB('time', opt.time + 1)
+						counter = counter +  1
                     }
 
                 })
@@ -41,7 +90,6 @@ chrome.runtime.onMessage.addListener(
 			current();
 			
         }
-
         if (request.cmd == "extend") {
             countup3 = setInterval(() => {
                 getDB('time', function(opt) {
