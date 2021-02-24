@@ -212,17 +212,17 @@ function getDB(key, cb) {
 }
 
 //my code
-// function currentEvent() {
-//     chrome.storage.local.get(['time'], function(result) {
-//         if (result.currentEvent) {
+function currentEvent() {
+    chrome.storage.local.get(['time'], function(result) {
+        if (result.currentEvent) {
 
-//             document.getElementById("enter").value = result.currentEvent;
-//             console.log("the current event is " + result.currentEvent)
-//         } else {
-//             console.log('no current event')
-//         }
-//     });
-// }
+            document.getElementById("enter").value = result.currentEvent;
+            console.log("the current event is " + result.currentEvent)
+        } else {
+            console.log('no current event')
+        }
+    });
+}
 chrome.storage.local.get(['list'], function(result) {
     if (result) {
         for (i of result.list) {
