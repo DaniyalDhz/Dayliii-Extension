@@ -3,7 +3,7 @@
     "name": "Dayliii",
     "description": "Manage your calendars on the fly!",
     "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "icons":{
         "16": "logo-16.png",
         "48": "logo-48.png",
