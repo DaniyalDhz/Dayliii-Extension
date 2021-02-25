@@ -25,23 +25,25 @@ chrome.runtime.onMessage.addListener(
         if (request.cmd == "start") { //comes from chrome.tabs.sendmessage(tabid{cmd:'start'}). sends message sends an object.
             setDB('running', true)
             countup2 = setInterval(() => {
-                getDB('time', function(opt) { //opt is a data callback from the database when you use getDB(key, callback)
+
+                getDB(['time', 'startTime'], function(opt) { //opt is a data callback from the database when you use getDB(key, callback)
                     var timeup = opt.time
 
-                    if (timeup == startTime) {
+                    if (timeup == opt.startTime) {
                         playsound()
-                        chrome.tabs.sendMessage(tabId, { cmd: "popup" }) //? what is cmd?
                         console.log('popup to tab ', tabId)
                         clearInterval(countup2)
                         setDB('running', false)
+                        chrome.tabs.sendMessage(tabId, { cmd: "popup" }).catch(() => {}) //? what is cmd?
                     } else {
-
+                        console.log('time running ', opt.time)
+                        console.log('timeup is ', startTime)
                         setDB('time', opt.time + 1) //? why adding + 1?
                     }
 
                 })
             }, 1000); //every 1000ms, it will check if timeup == startTime or not
-            current();
+            // current();
 
         }
 
@@ -68,7 +70,7 @@ chrome.runtime.onMessage.addListener(
             getDB('alert', function(database) {
                 console.log('alert value is ', database.alert)
                 let eventName = database.alert
-                submit(eventName)
+                // submit(eventName)
             })
         }
 

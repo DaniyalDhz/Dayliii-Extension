@@ -28,7 +28,7 @@ function fetchDataFromServer() {
             })
             .then((response) => response.json()) // this can prolly be taken out
             .then(function(json) {
-                setDB('startTimer', json.time)
+                setDB('startTime', json.time)
                 startTime = json.time;
                 console.log('timer is', json.time)
                 _clock = $('.clock').FlipClock(startTime, { //do nothing
@@ -39,8 +39,10 @@ function fetchDataFromServer() {
                 });
                 return json //can use 10 as an example
             })
-            .then((json) => { setDB('alert', json.event);
-                document.getElementById('enter').value = json.event }) //can repalce answer w string for debugging
+            .then((json) => {
+                setDB('alert', json.event);
+                document.getElementById('enter').value = json.event
+            }) //can repalce answer w string for debugging
             .catch(console.log('didnt receive data')) // add err in function
     })
 
@@ -78,9 +80,9 @@ sleep(55 minutes)
 
 
 
-document.getElementById("popup").addEventListener("click", function() {
-    chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
-});
+// document.getElementById("popup").addEventListener("click", function() {
+//     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
+// });
 // load db with 'alert' key //TODO: change alert name to more meaningful
 getDB('alert', (data) => {
     var txt = document.getElementById("enter");
