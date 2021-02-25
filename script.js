@@ -39,7 +39,8 @@ function fetchDataFromServer() {
                 });
                 return json //can use 10 as an example
             })
-            .then((json) => setDB('alert', json.event)) //can repalce answer w string for debugging
+            .then((json) => { setDB('alert', json.event);
+                document.getElementById('enter').value = json.event }) //can repalce answer w string for debugging
             .catch(console.log('didnt receive data')) // add err in function
     })
 
