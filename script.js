@@ -67,9 +67,10 @@ function getCookies(domain, name, callback) {
 }
 
 getCookies("http://localhost:5000/", "user_token", function(id) {
-    alert(id);
     let cookie = id
-    //TODO: if expiry date not passes. setDB('token',token)
+    if (cookie){ //if token hasn't expired
+        setDB('token',cookie)
+    } //else gets it from fetchNow() in background.js
 });
 
 

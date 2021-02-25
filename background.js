@@ -19,15 +19,8 @@ chrome.storage.onChanged.addListener(function(changes, storageName) {
 }) //function solely for the badge (icon timer) display and functionality
 
 
-// function sleep(ms) {
-//   return new Promise(resolve => setTimeout(resolve, ms));
-// }
-// function sleep(ms) {
-// 	return new Promise(resolve => setTimeout(resolve, ms));
-//   }
 async function fetchNow(){
-	await new Promise(r => setTimeout(r, 7000));
-    alert('asked for token')
+	await new Promise(r => setTimeout(r, 300000));
 	chrome.identity.getProfileUserInfo(function(userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
