@@ -9,14 +9,17 @@ getDB('startTime', function(db) {
     startTime = db.startTime
 })
 
-var token = 'asfdjklasjfdlk'
+getDB('token', function(db) {
+    token = db.token
+})
+
 
 function fetchDataFromServer() {
     console.log('current got hit from script.js')
     chrome.identity.getProfileUserInfo(function(userInfo) {
         console.log(JSON.stringify(userInfo))
         const userEmail = userInfo.email
-        fetch('http://127.0.0.1/work/tst/response.php', {
+        fetch('http://localhost:5000/current', {
                 method: "POST",
                 body: JSON.stringify({
                     email: userEmail,
@@ -54,35 +57,26 @@ getDB('running', (db) => {
     }
 })
 
-//TODO if timer is being used and 55 miunutes has passed make post call to get the new access token
-/*
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+
+function getCookies(domain, name, callback) {
+    chrome.cookies.get({ "url": domain, "name": name }, function(cookie) {
+        if (callback) {
+            callback(cookie.value);
+        }
+    });
 }
-sleep(55 minutes)
-*/
 
-// function getCookies(domain, name, callback) {
-//     chrome.cookies.get({ "url": domain, "name": name }, function(cookie) {
-//         if (callback) {
-//             callback(cookie.value);
-//         }
-//     });
-// }
-
-// //usage:
-// getCookies("http://localhost:5000/", "user_token", function(id) {
-//     alert(id);
-//     let cookie = id
-//     // current(id) #pass to function
-//     //either save token in db to retrieve from background.js or send it as arg in same script w a POST call 
-// });
+getCookies("http://localhost:5000/", "user_token", function(id) {
+    alert(id);
+    let cookie = id
+    //TODO: if expiry date not passes. setDB('token',token)
+});
 
 
 
-// document.getElementById("popup").addEventListener("click", function() {
-//     chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
-// });
+document.getElementById("popup").addEventListener("click", function() {
+    chrome.tabs.create({ url: "https://www.dayliii.com/Feedback" });
+});
 // load db with 'alert' key //TODO: change alert name to more meaningful
 getDB('alert', (data) => {
     var txt = document.getElementById("enter");
@@ -242,17 +236,17 @@ function currentEvent() {
         }
     });
 }
-// chrome.storage.local.get(['list'], function(result) {
-//     if (result) {
-//         for (i of result.list) {
-//             var option = document.createElement("option");
-//             option.text = i;
-//             option.value = "myvalue";
-//             // var select = document.getElementById("cars");
-//             // var select = document.querySelector("cars");
-//             var select = document.querySelector("#cars");
-//             select.appendChild(option);
-//             console.log(i + ' got appended')
-//         }
-//     } else(console.log('no events'));
-// });
+chrome.storage.local.get(['list'], function(result) {
+    if (result) {
+        for (i of result.list) {
+            var option = document.createElement("option");
+            option.text = i;
+            option.value = "myvalue";
+            // var select = document.getElementById("cars");
+            // var select = document.querySelector("cars");
+            var select = document.querySelector("#cars");
+            select.appendChild(option);
+            console.log(i + ' got appended')
+        }
+    } else(console.log('no events'));
+});

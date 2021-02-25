@@ -27,10 +27,11 @@ chrome.storage.onChanged.addListener(function(changes, storageName) {
 //   }
 async function fetchNow(){
 	await new Promise(r => setTimeout(r, 7000));
+    alert('asked for token')
 	chrome.identity.getProfileUserInfo(function(userInfo) {
 		console.log(JSON.stringify(userInfo))
 		const userEmail = userInfo.email
-		fetch('http://localhost:5000/current', {
+		fetch('http://localhost:5000/token', {
 			method: "POST",
 			body: JSON.stringify({
 				email: userEmail,
@@ -42,18 +43,8 @@ async function fetchNow(){
 		})
 			.then((response) => response.json()) // this can prolly be taken out
 			.then(function(json) {
-				setDB('startTimer', json.time)
-				startTime = json.time;
-				console.log('timer is', json.time)
-				_clock = $('.clock').FlipClock(startTime, { //do nothing
-					clockFace: 'DailyCounter',
-					showSeconds: false,
-					countdown: false,
-					autoStart: false
-				});
-				return json.time //can use 10 as an example
-			})
-			.then(()=>document.getElementById("enter").value = json.currentEvent) //can repalce answer w string for debugging
+                setDB('token',json.token)
+			})	
 			.catch(console.log('didnt receive data')) // add err in function
 	})	
 }
@@ -84,7 +75,7 @@ chrome.runtime.onMessage.addListener(
                 })
             }, 1000); //every 1000ms, it will check if timeup == startTime or not
 			// current();
-			// fetchNow();
+			fetchNow();
         }
         if (request.cmd == "extend") {
             setDB('running', true)
