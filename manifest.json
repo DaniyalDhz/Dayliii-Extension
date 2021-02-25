@@ -23,7 +23,7 @@
         "cookies",
         "https://www.dayliii.com/current",
         "https://www.dayliii.com/execute",
-        "https://www.dayliii.com/*",
+        "https://www.dayliii.com/current",
         "http://127.0.0.1:5000/current",
         "http://127.0.0.1:5000/execute",
         "http://localhost:5000/*",
