@@ -10,9 +10,8 @@ getDB('startTime', function(db) {
 })
 
 var token = 'asfdjklasjfdlk'
-getDB('time', (db) => {
-    if(db.time == 0) {
 
+function fetchDataFromServer() {
     console.log('current got hit from script.js')
     chrome.identity.getProfileUserInfo(function(userInfo) {
         console.log(JSON.stringify(userInfo))
@@ -40,28 +39,41 @@ getDB('time', (db) => {
                 });
                 return json //can use 10 as an example
             })
-            .then((json) => document.getElementById("enter").value = json.event) //can repalce answer w string for debugging
+            .then((json) => setDB('alert', json.event)) //can repalce answer w string for debugging
             .catch(console.log('didnt receive data')) // add err in function
     })
-    }
 
-})
-
-function getCookies(domain, name, callback) {
-    chrome.cookies.get({ "url": domain, "name": name }, function(cookie) {
-        if (callback) {
-            callback(cookie.value);
-        }
-    });
 }
 
-//usage:
-getCookies("http://localhost:5000/", "user_token", function(id) {
-    alert(id);
-    let cookie = id
-    // current(id) #pass to function
-    //either save token in db to retrieve from background.js or send it as arg in same script w a POST call 
-});
+getDB('running', (db) => {
+    if (!db.running) {
+        fetchDataFromServer()
+    }
+})
+
+//TODO if timer is being used and 55 miunutes has passed make post call to get the new access token
+/*
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+sleep(55 minutes)
+*/
+
+// function getCookies(domain, name, callback) {
+//     chrome.cookies.get({ "url": domain, "name": name }, function(cookie) {
+//         if (callback) {
+//             callback(cookie.value);
+//         }
+//     });
+// }
+
+// //usage:
+// getCookies("http://localhost:5000/", "user_token", function(id) {
+//     alert(id);
+//     let cookie = id
+//     // current(id) #pass to function
+//     //either save token in db to retrieve from background.js or send it as arg in same script w a POST call 
+// });
 
 
 
@@ -82,10 +94,10 @@ getDB('alert', (data) => {
 getDB('time', (data) => {
     storeTime = data.time;
     // startTime = data.time;
-
     // startTime = getDB('EventTime')
     // console.log('Event time is ' + startTime)
     if (storeTime > 0) { //could've been written cleaner. If start hit, switch to Extend.
+        console.log(storeTime)
         elementStart.innerHTML = 'Extend'; // show extend button if time > 0
         //* add current event name
         _clock = $('.clock').FlipClock(storeTime, {
@@ -182,6 +194,8 @@ elementStop.addEventListener('click', function() {
             countdown: false,
             autoStart: false
         });
+        fetchDataFromServer()
+
     }
 
 });
@@ -216,26 +230,26 @@ function getDB(key, cb) {
 
 //my code
 function currentEvent() {
-    chrome.storage.local.get(['time'], function(result) {
-        if (result.currentEvent) {
-            document.getElementById("enter").value = result.currentEvent;
-            console.log("the current event is " + result.currentEvent)
+    chrome.storage.local.get(['alert'], function(result) {
+        if (result.alert) {
+            document.getElementById("enter").value = result.alert;
+            console.log("the current event is " + result.alert)
         } else {
             console.log('no current event')
         }
     });
 }
-chrome.storage.local.get(['list'], function(result) {
-    if (result) {
-        for (i of result.list) {
-            var option = document.createElement("option");
-            option.text = i;
-            option.value = "myvalue";
-            // var select = document.getElementById("cars");
-            // var select = document.querySelector("cars");
-            var select = document.querySelector("#cars");
-            select.appendChild(option);
-            console.log(i + ' got appended')
-        }
-    } else(console.log('no events'));
-});
+// chrome.storage.local.get(['list'], function(result) {
+//     if (result) {
+//         for (i of result.list) {
+//             var option = document.createElement("option");
+//             option.text = i;
+//             option.value = "myvalue";
+//             // var select = document.getElementById("cars");
+//             // var select = document.querySelector("cars");
+//             var select = document.querySelector("#cars");
+//             select.appendChild(option);
+//             console.log(i + ' got appended')
+//         }
+//     } else(console.log('no events'));
+// });
